@@ -24,6 +24,7 @@ pre h1 {
   padding: 0;
 
   font: inherit;
+  font-size: 12px; /* IE7 needs this explicitly */
   font-weight: bold;
   color: #000;
   color: rgba(0,0,0,0.8);
