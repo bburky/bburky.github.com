@@ -13,9 +13,9 @@ pre {
   font-family: "john-doe", Courier, "Courier New", monospace, serif;
   letter-spacing: 0.25px;
   font-size: 12px;
-  color: #bbb; /* todo: update */
+  color: #e0e0e0;
   color: rgba(0,0,0,0.19);
-  text-shadow:0 -1px 1px rgba(0,0,0,0.12);
+  text-shadow: 0 -1px 1px rgba(0,0,0,0.12);
 }
 
 pre h1 {
@@ -26,7 +26,7 @@ pre h1 {
   font: inherit;
   font-size: 12px; /* IE7 needs this explicitly */
   font-weight: bold;
-  color: #000;
+  color: #323232;
   color: rgba(0,0,0,0.8);
 }
 
@@ -34,7 +34,7 @@ pre strong {
   margin-left: 2px;
 
   font-weight: inherit;
-  color: #000;
+  color: #323232;
   color: rgba(0,0,0,0.8);
 }
 
@@ -62,8 +62,8 @@ main {
 /* media queries don't work in IE8 */
 @media not print {
   body {
-    background: #fff; /* TODO: grey */
-    background: rgba(0,0,0,0.18);
+    background: #d1d1d1;
+    /*background: rgba(0,0,0,0.18);*/
   }
 
   pre {
@@ -75,9 +75,9 @@ main {
     display: block; /* undo hiding, todo disable on print too */
     font-family: Helvetica, "nimbus-sans", Arial, sans-serif;
 
-    -moz-box-shadow:    5px 8px 20px 5px #aaa;
-    -webkit-box-shadow: 5px 8px 20px 5px #aaa;
-    box-shadow:         5px 8px 20px 5px #aaa;
+    -moz-box-shadow:    5px 8px 20px 5px #999999;
+    -webkit-box-shadow: 5px 8px 20px 5px #999999;
+    box-shadow:         5px 8px 20px 5px #999999;
 
     -moz-box-shadow:    5px 8px 20px 5px rgba(0,0,0,0.25);
     -webkit-box-shadow: 5px 8px 20px 5px rgba(0,0,0,0.25);
@@ -108,9 +108,9 @@ main {
   nav a:hover {
     text-decoration: none;
 
-    -moz-box-shadow:    5px 8px 20px 5px #aaa;
-    -webkit-box-shadow: 5px 8px 20px 5px #aaa;
-    box-shadow:         5px 8px 20px 5px #aaa;
+    -moz-box-shadow:    5px 8px 20px 5px #999999;
+    -webkit-box-shadow: 5px 8px 20px 5px #999999;
+    box-shadow:         5px 8px 20px 5px #999999;
 
     -moz-box-shadow:    5px 8px 20px 5px rgba(0,0,0,0.18);
     -webkit-box-shadow: 5px 8px 20px 5px rgba(0,0,0,0.18);
@@ -144,9 +144,9 @@ main {
   main {
     z-index: 1;
 
-    -moz-box-shadow:    5px 8px 20px 5px #aaa;
-    -webkit-box-shadow: 5px 8px 20px 5px #aaa;
-    box-shadow:         5px 8px 20px 5px #aaa;
+    -moz-box-shadow:    5px 8px 20px 5px #a5a5a5;
+    -webkit-box-shadow: 5px 8px 20px 5px #a5a5a5;
+    box-shadow:         5px 8px 20px 5px #a5a5a5;
 
     -moz-box-shadow:    5px 8px 20px 5px rgba(0,0,0,0.25);
     -webkit-box-shadow: 5px 8px 20px 5px rgba(0,0,0,0.25);
