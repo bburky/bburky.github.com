@@ -130,12 +130,7 @@ main h2 {
   position: relative;
 }
 
-main h2 a:hover:after {
-  content: '';
-  position: absolute;
-  height: 24px; /* 24 + 2*/
-  left: 0;
-  right: 0;
+main h2 a:hover {
   border-bottom: 3px solid black;
 }
 
@@ -149,17 +144,6 @@ main p a {
   position: relative;
 }
 
-main p a:hover:after {
-  content: '';
-  position: absolute;
-  height: 22px; /* 24 + 2 - 1 */
-  left: 0;
-  right: 0;
+main p a:hover {
   border-bottom: 3px solid black;
 }
-
-
-
-
-
-
