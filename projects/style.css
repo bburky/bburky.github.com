@@ -90,7 +90,7 @@ main {
   -ms-transform:     rotate(-9.75deg); /* IE9+, conflicts with above */
   -moz-transform:    rotate(-9.75deg);
   -o-transform:      rotate(-9.75deg);
-  -webkit-transform: rotate(-9.75deg);
+  -webkit-transform: rotate(-9.75deg) translate3d(0, 0, 0);
   transform:         rotate(-9.75deg);
 
   -moz-box-shadow:    5px 8px 20px 5px #aaa;
