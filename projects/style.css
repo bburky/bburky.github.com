@@ -126,8 +126,6 @@ main h2 {
   line-height: 24px;
   margin: 0 0 24px 0;
   padding: 0;
-  display: inline-block;
-  position: relative;
 }
 
 main h2 a:hover {
