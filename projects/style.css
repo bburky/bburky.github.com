@@ -1,9 +1,10 @@
+/* Yes, I am totally using inches for layout. */
+
 body {
   margin: 0;
   padding: 0;
 
   background: rgba(0,0,0,0.18);
-
   text-rendering: optimizeLegibility;
 }
 
