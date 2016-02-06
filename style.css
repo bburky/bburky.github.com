@@ -124,6 +124,22 @@ main {
     -o-transform:      rotate(-9.75deg);
     -webkit-transform: rotate(-9.75deg) translate3d(0, 0, 0);
     transform:         rotate(-9.75deg);
+
+    -webkit-clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%, 0 0);
+    clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%, 0 21%);
+
+    transition: all .5s ease;
+  }
+
+  nav:hover {
+    -ms-transform:     rotate(-11deg); /* IE9+, conflicts with above */
+    -moz-transform:    rotate(-11deg);
+    -o-transform:      rotate(-11deg);
+    -webkit-transform: rotate(-11deg) translate3d(0, 0, 0);
+    transform:         rotate(-11deg);
+
+    -webkit-clip-path: polygon(110px 0, 100% 0, 100% 100%, 0 100%, 0 210px);
+    clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%, 0 21%);
   }
 
   nav a {
@@ -146,14 +162,6 @@ main {
     box-shadow:         5px 8px 20px 5px rgba(0,0,0,0.18);
   }
 
-  nav a:hover:before {
-    content: '';
-    position: absolute;
-    height: 26px; /* 24 + 2*/
-    width: 1in;
-    border-bottom: 3px solid black;
-  }
-
   nav h1 {
     font-weight: bold;
     font-size: 24px;
@@ -169,6 +177,34 @@ main {
     margin: 0 0 120px 0; /* 24 * 5 lines, hardcoded for now */
     padding: 0;
   }
+
+  nav a::before {
+     pointer-events: none;
+     content: "";
+     position: absolute;
+     height: 0;
+     width: 0;
+     top:0;
+     left:0;
+     background:
+         linear-gradient(
+             116.565deg,
+             #fff,
+             #f3f3f3 45%,
+             #ddd 50%,
+             #aaa 50%,
+             #bbb 56%,
+             #ccc 62%,
+             #f3f3f3 80%,
+             #fff 100%
+         );
+     transition: all .5s ease;
+ }
+
+ nav a:hover::before {
+   height: 150px;
+   width: 75px;
+ }
 
   main {
     z-index: 1;

@@ -63,6 +63,22 @@ nav {
   top: 0.25in;
   left: 0;
   right: 0;
+
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 0);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 0);
+
+  transition: all .5s ease;
+}
+
+nav:hover {
+  -ms-transform:     rotate(2deg); /* IE9+, conflicts with above */
+  -moz-transform:    rotate(2deg);
+  -o-transform:      rotate(2deg);
+  -webkit-transform: rotate(2deg) translate3d(0, 0, 0);
+  transform:         rotate(2deg);
+
+  -webkit-clip-path: polygon(210px 0, 100% 0, 100% 100%, 0 100%, 0 110px);
+  clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%, 0 21%);
 }
 
 nav a {
@@ -71,19 +87,34 @@ nav a {
   display: block;
 }
 
-nav a:hover {
-  text-decoration: none;
-  font-weight: bold;
 
-  -moz-box-shadow:    5px 8px 20px 5px #aaa;
-  -webkit-box-shadow: 5px 8px 20px 5px #aaa;
-  box-shadow:         5px 8px 20px 5px #aaa;
+  nav a::before {
+     pointer-events: none;
+     content: "";
+     position: absolute;
+     height: 0;
+     width: 0;
+     top:0;
+     left:0;
+     background:
+         linear-gradient(
+             153.435deg,
+             #fff,
+             #f3f3f3 45%,
+             #ddd 50%,
+             #aaa 50%,
+             #bbb 56%,
+             #ccc 62%,
+             #f3f3f3 80%,
+             #fff 100%
+         );
+     transition: all .5s ease;
+ }
 
-  -moz-box-shadow:    5px 8px 20px 5px rgba(0,0,0,0.18);
-  -webkit-box-shadow: 5px 8px 20px 5px rgba(0,0,0,0.18);
-  box-shadow:         5px 8px 20px 5px rgba(0,0,0,0.18);
-}
-
+ nav a:hover::before {
+   height: 75px;
+   width: 150px;
+ }
 main {
   z-index: 1;
 
