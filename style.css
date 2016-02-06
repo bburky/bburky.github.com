@@ -14,12 +14,11 @@ body:after {
   z-index: 1;
   left: 0;
   top: 0;
-  background: radial-gradient(ellipse at 5in 2in, rgba(0,0,0,0.0) 15%, rgba(0,0,0,0.65) 80%, rgba(0,0,0,0.85) 100%);
+  background: radial-gradient(circle at calc(50% - 1.5in) 2in, rgba(0,0,0,0.0) 2in, rgba(0,0,0,0.65) 12in, rgba(0,0,0,0.85) 100%);
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: block;
   content: "";
-  height: 13in;
 }
 
 pre {
