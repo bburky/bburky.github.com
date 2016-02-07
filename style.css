@@ -140,7 +140,7 @@ main {
     transform:         rotate(-11deg);
 
     -webkit-clip-path: polygon(110px 0, 100% 0, 100% 100%, 0 100%, 0 210px);
-    clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%, 0 21%);
+    clip-path: polygon(110px 0, 100% 0, 100% 100%, 0 100%, 0 210px);
   }
 
   nav a {

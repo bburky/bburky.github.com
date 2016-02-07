@@ -79,7 +79,7 @@ nav:hover {
   transform:         rotate(2deg);
 
   -webkit-clip-path: polygon(210px 0, 100% 0, 100% 100%, 0 100%, 0 110px);
-  clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%, 0 21%);
+  clip-path: polygon(210px 0, 100% 0, 100% 100%, 0 100%, 0 110px);
 }
 
 nav a {
