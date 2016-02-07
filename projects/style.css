@@ -16,6 +16,7 @@ body:after {
   top: 0;
   background: radial-gradient(circle at calc(50% - 1.5in) 2in, rgba(0,0,0,0.0) 2in, rgba(0,0,0,0.65) 12in, rgba(0,0,0,0.85) 100%);
   width: 100%;
+  min-height: 13in;
   height: 100vh;
   display: block;
   content: "";
