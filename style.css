@@ -175,7 +175,7 @@ main {
     font-weight: bold;
     font-size: 16px;
     line-height: 24px;
-    margin: 0 0 120px 0; /* 24 * 5 lines, hardcoded for now */
+    margin: 0 0 3em 0; /*  hardcoded for now */
     padding: 0;
   }
 
