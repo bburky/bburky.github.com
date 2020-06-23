@@ -126,8 +126,8 @@ main {
     -webkit-transform: rotate(-9.75deg) translate3d(0, 0, 0);
     transform:         rotate(-9.75deg);
 
-    -webkit-clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%, 0 0);
-    clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%, 0 21%);
+    /* -webkit-clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%, 0 0);
+    clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%, 0 21%); */
 
     transition: all .5s ease;
   }
@@ -139,8 +139,8 @@ main {
     -webkit-transform: rotate(-11deg) translate3d(0, 0, 0);
     transform:         rotate(-11deg);
 
-    -webkit-clip-path: polygon(110px 0, 100% 0, 100% 100%, 0 100%, 0 210px);
-    clip-path: polygon(110px 0, 100% 0, 100% 100%, 0 100%, 0 210px);
+    /* -webkit-clip-path: polygon(110px 0, 100% 0, 100% 100%, 0 100%, 0 210px);
+    clip-path: polygon(110px 0, 100% 0, 100% 100%, 0 100%, 0 210px); */
   }
 
   nav a {
