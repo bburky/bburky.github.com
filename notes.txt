@@ -1,0 +1,51 @@
+css variables for accents etc?
+inline styles to set vars?
+
+css link attr domain styling?
+
+gist
+  scrape public?
+  manual add private?
+github repos
+  manual add?
+CVEs
+   github ghsa
+   git
+   mercurial
+bounties
+  hackerone
+  bugcrowd
+  github
+twitter
+  manual add?
+projects
+blog posts?
+
+tags:
+  cve/bugs (incl bounties)
+  projects
+  misc
+  blog
+
+---
+title: ...
+canonical-url: url?
+url: url?
+slug: ?
+tags: [cve]
+---
+
+
+excerpt?
+  excerpt only articles somehow?
+    if excerpt at end (no body), then skip blog post?
+    or a boolean excerptOnly: true
+gitignore
+  skip scraped files based on gitignore?
+canonical ids?
+  url if it makes sense?
+ISO date in filename?
+
+use eleventy as scraper?
+  autoscrape on build?
+  env var to enable?
