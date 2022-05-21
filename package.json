@@ -1,0 +1,25 @@
+{
+  "name": "bburky.com",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bburky/bburky.github.com.git"
+  },
+  "author": "Blake Burkhart",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/bburky/bburky.github.com/issues"
+  },
+  "homepage": "https://github.com/bburky/bburky.github.com#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^1.0.1",
+    "@sindresorhus/slugify": "^2.1.0",
+    "node-fetch": "^3.2.4",
+    "octokit": "^1.7.1"
+  }
+}
