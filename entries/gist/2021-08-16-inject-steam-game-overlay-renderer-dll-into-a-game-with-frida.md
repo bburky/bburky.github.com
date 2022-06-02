@@ -1,9 +1,10 @@
 ---
-title: Inject Steam GameOverlayRenderer DLL into a game with Frida
+title: Inject Steam GameOverlayRenderer DLL with Frida
 date: '2021-08-16'
 url: 'https://gist.github.com/9abb40556bba56e745a5e78e47797733'
 ---
-Inspired by https://gist.github.com/Andon13/d439d5334d8173e5b959f383f1c49b03
+Inspired by:  
+<https://gist.github.com/Andon13/d439d5334d8173e5b959f383f1c49b03>
 
 Must be run during process initialization, cannot be run after the game is
 started.

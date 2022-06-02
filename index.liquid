@@ -1,0 +1,86 @@
+---
+#eleventyExcludeFromCollections: true
+title: Blog
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+  </head>
+  <body>
+
+      <input class="nav" type="radio" id="nav-all" name="nav" value="all" checked>
+      <label class="nav" for="nav-all">all</label>
+      <input class="nav" type="radio" id="nav-cve" name="nav" value="cve">
+      <label class="nav" for="nav-cve">cve</label>
+      <input class="nav" type="radio" id="nav-ctf" name="nav" value="ctf">
+      <label class="nav" for="nav-ctf">ctf</label>
+
+    <header class="paper-85x11">
+    <pre>
+BEGIN:<span class="field">VCARD</span>
+VERSION:<span class="field">4.0</span>
+
+FN:<h1 class="fn">Blake Burkhart</h1>
+
+EXPERTISE;LEVEL=expert:<strong>breaking things</strong>
+INTEREST;LEVEL=high:<strong>programming</strong>
+
+URL:<strong class="url"><a href="https://bburky.com/" rel="me">https://bburky.com/</a></strong>
+URL:<strong class="url"><a href="https://twitter.com/bburky/" rel="me">https://twitter.com/bburky/</a></strong>
+URL:<strong class="url"><a href="https://github.com/bburky/" rel="me">https://github.com/bburky/</a></strong>
+URL:<strong class="url"><a href="https://flickr.com/bburky_/" rel="me">https://flickr.com/bburky_/</a></strong>
+
+URL:<strong class="url"><a href="https://bounty.github.com/researchers/bburky" rel="me">https://bounty.github.com/researchers/bburky</a></strong>
+URL:<strong class="url"><a href="https://hackerone.com/bburky" rel="me">https://hackerone.com/bburky</a></strong>
+URL:<strong class="url"><a href="https://bugcrowd.com/bburky" rel="me">https://bugcrowd.com/bburky</a></strong>
+
+EMAIL:<strong class="email"><a href="mailto:%62%62%75%72%6b%79%40%62%62%75%72%6b%79%2e%63%6f%6d">b<!-- -->b<!-- --><script></script>u<!-- -->r<!-- -->k<!-- -->y<!-- -->@<!-- -->b<!-- -->b<!-- -->u<!-- -->r<!-- -->k<!-- -->y<!-- -->.<!-- -->c<!-- --><style></style>o<!-- -->m</a></strong>
+
+NOTE:<span class="note">A creative hacker who reads entirely too many RFCs.</span>
+
+END:<span class="field">VCARD</span>
+    </pre>
+  </header>
+
+
+    {%- for post in collections.entries reversed -%}
+      <article
+      class="
+        {%- if post.data.class -%}
+          {{ post.data.class | join: " " }}
+        {%- else -%}
+          notecard-6x4
+        {%- endif -%}
+        {{ " " }}
+        {{- post.data.tags | join: " " -}}
+        {%- if post.data.url %} external{% endif -%}
+      ">
+        <header>
+          {% if post.data.cve %}
+          <ul class="cve-header">
+            {%- for cve in post.data.cve -%}
+              <li><a href="https://nvd.nist.gov/vuln/detail/{{ cve }}">{{ cve }}</a></li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+
+          <h1>
+            <a href="{{ post.data.url | default: post.url }}">
+              {{- post.data.title -}}
+            </a>
+          </h1>
+
+        </header>
+          <section>
+            {{- post | excerpt -}}
+          </section>
+      </article>
+    {%- endfor -%}
+  </body>
+</html>

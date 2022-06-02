@@ -2,6 +2,8 @@
 title: "PlaidCTF 2019: A Whaley Good Joke writeup"
 date: 2019-04-14
 url: https://ctftime.org/writeup/25656
+tags: ctf
+class: notecard-6x4
 ---
 
 The challenge was to fix a broken Docker tar archive.
@@ -34,9 +36,9 @@ A file isn't deleted from a layer unless it was already created by a previous la
 
 However, a much simpler solution is possible: sort the docker tar layers by mtime timestamp. The files created in the docker tar layers have different timestamps, accurate to one second. Except for two pairs of files, all the timestamps are unique. These two pairs can be resolved manually.
 
-* Find the newest timestamp in each layer
-* Sort layers by their newest timestamp
-* Reconstruct the tarball with this layer order
+1. Find the newest timestamp in each layer
+2. Sort layers by their newest timestamp
+3. Reconstruct the tarball with this layer order
 
-* [writeup](https://ctftime.org/writeup/25656)
+* [writeup](https://ctftime.org/writeup/25656)  
 * [source code](https://gist.github.com/bburky/58edd7ce00cd4405429269695568fe2c)

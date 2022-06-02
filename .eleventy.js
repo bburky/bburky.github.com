@@ -1,23 +1,21 @@
-const ts = require("typescript");
+const { EleventyRenderPlugin } = require("@11ty/eleventy");
 
-module.exports = function(config) {
+module.exports = function (eleventyConfig) {
+  eleventyConfig.addTemplateFormats([
+    "css"
+  ]);
 
-  // 11ty.ts
+  eleventyConfig.setFrontMatterParsingOptions({
+    excerpt: true,
+    excerpt_separator: "<!-- excerpt -->"
+  });
 
-  config.addTemplateFormats("ts");
-
-  config.addExtension("ts", {
-    outputFileExtension: "js",
-    compile: function(source) {
-      return function() {
-        let ret = ts.transpileModule(source, {
-          compilerOptions: {
-            module: ts.ModuleKind.CommonJS
-          }
-        });
-
-        return ret.outputText;
-      };
+  eleventyConfig.addPlugin(EleventyRenderPlugin);
+  eleventyConfig.addFilter('excerpt', async function (content) {
+    const { renderTemplate } = eleventyConfig.javascriptFunctions;
+    if (!content.data.page?.excerpt) {
+      return content.templateContent;
     }
+    return await renderTemplate(content.data.page.excerpt, "md", content.data);
   });
 };

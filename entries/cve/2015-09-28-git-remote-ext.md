@@ -7,6 +7,8 @@ background: TODO
 color: '#4e443c'
 accentColor: '#f14e32'
 icon: TODO
+tags: cve
+class: notecard-6x4
 ---
 
 Git allows shell commands to be specified in `ext` URLs for remote repositories. For example, `git clone 'ext::sh -c whoami% >&2'` will execute the `whoami` command to try to connect to a remote repository. To protect users from accidentally trying to clone a malicious URL, Git submodule URLs were restricted to a safe set of protocols in [Git v2.6.1](https://github.com/git/git/blob/90f7b16b3adc78d4bbabbd426fb69aa78c714f71/Documentation/RelNotes/2.6.1.txt#L13-L18).
