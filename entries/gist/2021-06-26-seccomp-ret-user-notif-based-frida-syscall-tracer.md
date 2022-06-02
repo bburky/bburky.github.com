@@ -1,5 +1,5 @@
 ---
-title: Proof of concept SECCOMP_RET_USER_NOTIF based Frida syscall tracer
+title: Proof of concept SECCOMP_RET_USER_NOTIF based Frida Syscall Tracer
 date: '2021-06-26'
 url: 'https://gist.github.com/cfa97a45e16fa0528f67dc9f31adc51e'
 ---

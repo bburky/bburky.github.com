@@ -1,16 +1,16 @@
 ---
-title: Multitouch Calligraphy HTML5 Code Golf
+title: Multitouch Calligraphy (Code Golf)
 date:  2018-01-23
-url: http://bburky.com/MultitouchCalligraphy/
+url: https://bburky.com/MultitouchCalligraphy/
 ---
 
-Use a multitouch touchscreen device and [try the demo](http://bburky.com/MultitouchCalligraphy/). A larger tablet sized device is suggested, but a phone works.
+Use a multitouch touchscreen device and [try the demo](https://bburky.com/MultitouchCalligraphy/). A larger tablet sized device is suggested, but a phone works.
 
 Touch two fingers to the screen and drag them to draw a calligraphic pen stroke.
 
 Code golfed down to 208 bytes.
 
-* [Demo](http://bburky.com/MultitouchCalligraphy/)
+* [Demo](https://bburky.com/MultitouchCalligraphy/)
 * [Source code](https://github.com/bburky/MultitouchCalligraphy/blob/master/index.html)
 
 ## [MiniCodeEditor](https://xem.github.io/miniCodeEditor/)
