@@ -5,9 +5,10 @@ module.exports = {
     // Dynamically set permalink=false when data.url is set
     eleventyComputed: {
         permalink: (data) => {
-          if (data.url) {
-            return false;
-          }
+          // if (data.url) {
+          //   return false;
+          // }
+          return false;
       }
     }
   };
