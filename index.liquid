@@ -15,11 +15,14 @@ title: Blog
   <body>
 
       <input class="nav" type="radio" id="nav-all" name="nav" value="all" checked>
-      <label class="nav" for="nav-all">all</label>
+      <label class="nav" for="nav-all">Everything</label>
+      <input class="nav" type="radio" id="nav-projects" name="nav" value="projects">
+      <label class="nav" for="nav-projects">Projects</label>
       <input class="nav" type="radio" id="nav-cve" name="nav" value="cve">
-      <label class="nav" for="nav-cve">cve</label>
+      <label class="nav" for="nav-cve">CVEs</label>
       <input class="nav" type="radio" id="nav-ctf" name="nav" value="ctf">
-      <label class="nav" for="nav-ctf">ctf</label>
+      <label class="nav" for="nav-ctf">CTFs</label>
+      <a href="#" id="feed">Feed</a>
 
     <header class="paper-85x11">
     <pre>
@@ -50,6 +53,8 @@ END:<span class="field">VCARD</span>
 
 
     {%- for post in collections.entries reversed -%}
+        {% if post.tags contains 'draft' %}{% continue %}{% endif %}
+
       <article
       class="
         {%- if post.data.class -%}

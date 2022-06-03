@@ -40,5 +40,5 @@ However, a much simpler solution is possible: sort the docker tar layers by mtim
 2. Sort layers by their newest timestamp
 3. Reconstruct the tarball with this layer order
 
-* [writeup](https://ctftime.org/writeup/25656)  
-* [source code](https://gist.github.com/bburky/58edd7ce00cd4405429269695568fe2c)
+* [CTF writeup](https://ctftime.org/writeup/25656)  
+* [Solution source code](https://gist.github.com/bburky/58edd7ce00cd4405429269695568fe2c)
