@@ -11,7 +11,7 @@ started.
 
 GameOverlayRenderer will use an appid from the SteamGameId environment
 variable. This is injected too. GameOverlayRenderer does not support
-steam_appid.txt, but this script will parse the file to discover the appid.
+`steam_appid.txt`, but this script will parse the file to discover the appid.
 
 Usage:
 ```

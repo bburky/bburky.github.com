@@ -1,6 +1,6 @@
 ---
 #eleventyExcludeFromCollections: true
-title: Blog
+title: bburky
 ---
 
 <!doctype html>
@@ -11,6 +11,7 @@ title: Blog
     <title>{{ title }}</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💣</text></svg>">
   </head>
   <body>
 
@@ -53,7 +54,7 @@ END:<span class="field">VCARD</span>
 
 
     {%- for post in collections.entries reversed -%}
-        {% if post.tags contains 'draft' %}{% continue %}{% endif %}
+        {% if post.data.tags contains 'draft' %}{% continue %}{% endif %}
 
       <article
       class="
@@ -67,20 +68,25 @@ END:<span class="field">VCARD</span>
         {%- if post.data.url %} external{% endif -%}
       ">
         <header>
-          {% if post.data.cve %}
+          {%- if post.data.cve -%}
           <ul class="cve-header">
             {%- for cve in post.data.cve -%}
               <li><a href="https://nvd.nist.gov/vuln/detail/{{ cve }}">{{ cve }}</a></li>
             {% endfor %}
           </ul>
-          {% endif %}
+          {%- endif -%}
 
+          {%- if post.data.hideHeader != true -%}
           <h1>
-            <a href="{{ post.data.url | default: post.url }}">
+            {%- if post.data.url -%}
+            <a href="{{ post.data.url }}">
+            {%- endif -%}
               {{- post.data.title -}}
+            {%- if post.data.url -%}
             </a>
+            {%- endif -%}
           </h1>
-
+          {%- endif -%}
         </header>
           <section>
             {{- post | excerpt -}}

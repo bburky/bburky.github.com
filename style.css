@@ -58,20 +58,59 @@ article header {
     padding: 0.25in;
 }
 
+@media (max-width: 5in) {
+    .notecard-6x4, .notecard-4x6, .notecard-5x3, .notecard-3x5, .notecard-3x3 {
+        /* Fit cards to screen on mobile*/
+        max-width: unset;
+        min-height: unset;
+        /* Tighten margins */
+        margin: 0.25em 0;
+    }
+    ul.cve-header {
+        /* Fix CVE label position with new margins */
+        margin-right: -2em !important;
+    }
+}
+
+/* TODO: this is a hack */
+/* Using inline-block seems to mess up layout */
+.notecard-6x4.overflow  * {
+    overflow: hidden;
+    max-width: 6in;
+    max-height: 4in;
+    /* display: inline-block !important; */
+}
+.notecard-6x4.overflow:after {
+    content: "";
+    display: block;
+    left: 0;
+    right: 0;
+    position: absolute;
+    height: 1in;
+    bottom: 0;
+    background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, .75) 25%, rgba(255,255,255,1));
+}
+.notecard-6x4.overflow {
+    padding-right: 0;
+    padding-bottom: 0;
+}
+
 header.paper-85x11 {
-    text-rendering: optimizeLegibility;
     width: 8.5in;
     padding: 0.25in;
     font-family: "john-doe", "American Typewriter", Courier, "Courier New", monospace, serif;
     letter-spacing: 0.25px;
     font-size: 12px;
-    color: rgba(0,0,0,0.19);
+    color: rgba(0,0,0,0.25);
     text-shadow: 0 -1px 1px rgba(0,0,0,0.12);
     transform: rotate(-7deg);
 
+    /* TODO: I think this is in 12px units */
+    min-height: 35em;
+
     /* Centering */
     /* Note this will never go past the lenft edge, a negative margin does nothing. */
-    margin: 0 calc(50vw - 4.25in) 3em auto;
+    margin: 0.25in calc(50vw - 4.25in) 0 auto;
     /* To make sure the nav below is visible, use a transparent border */
     border-left: 10em solid transparent;
     /* And to allow the nav to be clickable, disable pointer events */
@@ -225,12 +264,14 @@ article header h1 a[href^="https://bounty.github.com/"]:before,
 article header h1 a[href^="https://gist.github.com/"]:before {
     content: "\f09b";
     font-family: "Font Awesome 6 Brands";
+    color: black;
 }
 
 article.ctf header a:before,
 article header h1 a[href^="https://ctftime.org/"]:before {
     content: "\f024";
     font-family: "Font Awesome 6 Free";
+    color: red;
 }
 
 ul.cve-header {
