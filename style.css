@@ -72,29 +72,6 @@ article header {
     }
 }
 
-/* TODO: this is a hack */
-/* Using inline-block seems to mess up layout */
-.notecard-6x4.overflow  * {
-    overflow: hidden;
-    max-width: 6in;
-    max-height: 4in;
-    /* display: inline-block !important; */
-}
-.notecard-6x4.overflow:after {
-    content: "";
-    display: block;
-    left: 0;
-    right: 0;
-    position: absolute;
-    height: 1in;
-    bottom: 0;
-    background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, .75) 25%, rgba(255,255,255,1));
-}
-.notecard-6x4.overflow {
-    padding-right: 0;
-    padding-bottom: 0;
-}
-
 header.paper-85x11 {
     width: 8.5in;
     padding: 0.25in;
@@ -157,7 +134,7 @@ input.nav {
     position: fixed;
     width: 0;
 }
-label.nav {
+label.nav, #feed {
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
     color: white;
@@ -173,23 +150,10 @@ label.nav {
 }
 
 #feed {
-    display: block;
-    position: absolute;
-    text-decoration: none;
-
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
     color: black;
     background: rgb(220, 220, 220);
-    padding: 1em;
-    border-radius: 1em;
-    display: block;
-    text-align: left;
-    position: absolute;
-    width: 5in;
     top: calc(1in + 16em);
-    /* minimum left margin is 1em, but will be overridden by the @media query below */
-    left: 1em;
+    text-decoration: none;
 }
 #feed::before {
     content: "\f143";
@@ -201,6 +165,7 @@ label.nav {
     display: inline-block;
 
 }
+
 label.nav:hover, #feed:hover {
     text-decoration: underline;
 }
@@ -267,7 +232,7 @@ article header h1 a[href^="https://gist.github.com/"]:before {
     color: black;
 }
 
-article.ctf header a:before,
+article.ctf header a[href]:before,
 article header h1 a[href^="https://ctftime.org/"]:before {
     content: "\f024";
     font-family: "Font Awesome 6 Free";
