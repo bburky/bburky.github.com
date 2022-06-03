@@ -94,6 +94,16 @@ header.paper-85x11 {
     pointer-events: none;
 }
 
+@media print {
+    header.paper-85x11::after {
+        background: unset !important;
+    }
+    ul.cve-header li {
+        color: black !important;
+        border: thin solid black;
+    }
+}
+
 header.paper-85x11 * {
     /* re-enable pointer events for children to let links work */
     pointer-events: all;
