@@ -1,5 +1,5 @@
 ---
-title: Mercurial remote code execution in GitHub Importer
+title: "Mercurial remote code execution in GitHub Importer"
 date: 2016-03-21
 url: https://bounty.github.com/researchers/bburky.html
 cve:

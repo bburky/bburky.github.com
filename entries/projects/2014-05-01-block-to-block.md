@@ -3,6 +3,7 @@ title: Block to Block Game
 date: 2014-05-01
 url: https://bburky.com/blocktoblock/
 tags: projects
+class: notecard-4x6
 ---
 An HTML5 sliding block puzzle game
 

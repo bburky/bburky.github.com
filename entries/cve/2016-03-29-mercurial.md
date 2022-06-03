@@ -9,6 +9,7 @@ cve:
 # White bg
 # grey/blue
 tags: cve
+hideHeader: true
 ---
 
 ## CVE-2016-3105 Arbitrary code execution when converting Git repos
@@ -36,4 +37,3 @@ tags: cve
 * [convert: dead code removal - old git calling functions (SEC)](https://www.mercurial-scm.org/repo/hg/rev/b732e7f2aba4)
 * [convert: rewrite gitpipe to use common.commandline (SEC)](https://www.mercurial-scm.org/repo/hg/rev/80cac1de6aea)
 * [convert: test for shell injection in git calls (SEC)](https://www.mercurial-scm.org/repo/hg/rev/ae279d4a19e9)
-

@@ -3,6 +3,7 @@ title: Python WinRT Image Capture (and Focus Stacking)
 date: '2020-05-03'
 # url: 'https://gist.github.com/563457900bc566b0d261ff15847dadd6'
 url: https://nbviewer.org/gist/bburky/563457900bc566b0d261ff15847dadd6
+class: notecard-5x3
 ---
 [Python/WinRT](https://pypi.org/project/winrt/) is a crazy thing:
 
