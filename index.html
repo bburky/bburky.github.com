@@ -1,0 +1,344 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bburky</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💣</text></svg>">
+  </head>
+  <body>
+
+      <input class="nav" type="radio" id="nav-all" name="nav" value="all" checked>
+      <label class="nav" for="nav-all">Everything</label>
+      <input class="nav" type="radio" id="nav-projects" name="nav" value="projects">
+      <label class="nav" for="nav-projects">Projects</label>
+      <input class="nav" type="radio" id="nav-cve" name="nav" value="cve">
+      <label class="nav" for="nav-cve">CVEs</label>
+      <input class="nav" type="radio" id="nav-ctf" name="nav" value="ctf">
+      <label class="nav" for="nav-ctf">CTFs</label>
+      <a href="#" id="feed">Feed</a>
+
+    <header class="paper-85x11">
+    <pre>
+BEGIN:<span class="field">VCARD</span>
+VERSION:<span class="field">4.0</span>
+
+FN:<h1 class="fn">Blake Burkhart</h1>
+
+EXPERTISE;LEVEL=expert:<strong>breaking things</strong>
+INTEREST;LEVEL=high:<strong>programming</strong>
+
+URL:<strong class="url"><a href="https://bburky.com/" rel="me">https://bburky.com/</a></strong>
+URL:<strong class="url"><a href="https://twitter.com/bburky/" rel="me">https://twitter.com/bburky/</a></strong>
+URL:<strong class="url"><a href="https://github.com/bburky/" rel="me">https://github.com/bburky/</a></strong>
+URL:<strong class="url"><a href="https://flickr.com/bburky_/" rel="me">https://flickr.com/bburky_/</a></strong>
+
+URL:<strong class="url"><a href="https://bounty.github.com/researchers/bburky" rel="me">https://bounty.github.com/researchers/bburky</a></strong>
+URL:<strong class="url"><a href="https://hackerone.com/bburky" rel="me">https://hackerone.com/bburky</a></strong>
+URL:<strong class="url"><a href="https://bugcrowd.com/bburky" rel="me">https://bugcrowd.com/bburky</a></strong>
+
+EMAIL:<strong class="email"><a href="mailto:%62%62%75%72%6b%79%40%62%62%75%72%6b%79%2e%63%6f%6d">b<!-- -->b<!-- --><script></script>u<!-- -->r<!-- -->k<!-- -->y<!-- -->@<!-- -->b<!-- -->b<!-- -->u<!-- -->r<!-- -->k<!-- -->y<!-- -->.<!-- -->c<!-- --><style></style>o<!-- -->m</a></strong>
+
+NOTE:<span class="note">A creative hacker who reads entirely too many RFCs.</span>
+
+END:<span class="field">VCARD</span>
+    </pre>
+  </header>
+
+      <article
+      class="notecard-3x5 entries projects external">
+        <header><h1><a href="https://github.com/bburky/playnite-playlist">Playlist Extension for Playnite</a></h1></header>
+          <section><p>A <a href="https://playnite.link/">Playnite</a> extension providing a reorderable queue of games.</p>
+<p>A simple drag'n'drop interface in .Net WPF using <a href="https://github.com/punker76/gong-wpf-dragdrop">GongSolutions.WPF.DragDrop</a>.</p>
+</section>
+      </article>
+
+      <article
+      class="notecard-6x4 entries external">
+        <header><h1><a href="https://gist.github.com/9abb40556bba56e745a5e78e47797733">Inject Steam GameOverlayRenderer DLL with Frida</a></h1></header>
+          <section><p>Inspired by:<br>
+<a href="https://gist.github.com/Andon13/d439d5334d8173e5b959f383f1c49b03">https://gist.github.com/Andon13/d439d5334d8173e5b959f383f1c49b03</a></p>
+<p>Must be run during process initialization, cannot be run after the game is
+started.</p>
+<p>GameOverlayRenderer will use an appid from the SteamGameId environment
+variable. This is injected too. GameOverlayRenderer does not support
+<code>steam_appid.txt</code>, but this script will parse the file to discover the appid.</p>
+<p>Usage:</p>
+<pre><code>cd the\game\directory
+frida -f &quot;game.exe&quot; -l C:\somewhere\GameOverlayRenderer.js --no-pause
+</code></pre>
+</section>
+      </article>
+
+      <article
+      class="notecard-6x4 entries external">
+        <header><h1><a href="https://gist.github.com/cfa97a45e16fa0528f67dc9f31adc51e">Proof of concept SECCOMP_RET_USER_NOTIF based Frida Syscall Tracer</a></h1></header>
+          <section><p>A hacked up version of <a href="https://man7.org/tlpi/code/online/dist/seccomp/seccomp_user_notification.c.html"><code>seccomp/seccomp_user_notification.c</code></a> running inside <a href="https://frida.re/">Frida</a>.</p>
+<p><code>installFilter()</code> should be called on the main thread of the application. It's not possible to install the seccomp filter from <code>rpc.exports.init()</code> because it runs on a Frida thread.</p>
+<p><code>installFilter()</code> sets NO_NEW_PRIVS (required if non-root), installs the seccomp filter to trigger notifications, then creates a pthread to watch for notifications. Upon notifications a callback into Frida is invoked.</p>
+<p>When the callback fires, it won't be on the thread that invoked the syscall. I'm not actually sure how to use Frida interact with the suspended thread. Untested, but <a href="https://github.com/frida/frida-gum/pull/559">frida/frida-gum#559</a> may allow running code on the thread.</p>
+</section>
+      </article>
+
+      <article
+      class="notecard-4x6 entries cve external">
+        <header><ul class="cve-header"><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-3602">CVE-2021-3602</a></li>
+            
+          </ul><h1><a href="https://github.com/containers/buildah/security/advisories/GHSA-7638-r9r3-rmjj">Buildah/Podman chroot isolation: environment value leakage to intermediate processes</a></h1></header>
+          <section><blockquote>
+<p>When running processes using &quot;chroot&quot; isolation, the process being run can examine the environment variables of its immediate parent and grandparent processes (CVE-2021-3602). This isolation type is often used when running buildah in unprivileged containers, and it is often used to do so in CI/CD environments. If sensitive information is exposed to the original buildah process through its environment, that information will unintentionally be shared with child processes which it starts as part of handling RUN instructions or during buildah run. The commands that buildah is instructed to run can read that information if they choose to.</p>
+</blockquote>
+</section>
+      </article>
+
+      <article
+      class="notecard-6x4 entries external">
+        <header><h1><a href="https://gist.github.com/2d281a681f41c1965e208883161169de">Offline Kubernetes manifest diff (does not use cluster state)</a></h1></header>
+          <section><p>Offline <code>kubectl diff</code> style tool (does not use cluster state). Diff two local files containing templated manifests (e.g. kustomize or helm output).</p>
+<p>Resources in each file are matched by api, kind, namespace and name. This is also shown in the filename fields of the diff output.</p>
+<p>Usage:</p>
+<pre><code>k8s-diff.py old-manifests.yaml new-manifests.yaml
+kustomize build . | k8s-diff.py /tmp/old-manifests.yaml -
+</code></pre>
+</section>
+      </article>
+
+      <article
+      class="notecard-5x3 entries external">
+        <header><h1><a href="https://gist.github.com/ba90e1aa1451be20b1e046aa9efd8191">EPUB full text search using SQLite FTS5</a></h1></header>
+          <section><p>Do you ever look at the huge feature set of SQLite and try to see how many things you can use at the same time?</p>
+<p>FTS5 + fsdir + zipfile + JOIN multiple table-valued functions = EPUB full text search</p>
+</section>
+      </article>
+
+      <article
+      class="notecard-5x3 entries external">
+        <header><h1><a href="https://gist.github.com/4ff25b15164d93fb5d9fb89ab09af95b">Function hooking example using avr-gdb's built-in simulator and Python</a></h1></header>
+          <section><p>A simple example using <code>avr-gdb</code>'s built in <code>target sim</code> AVR simulator on a <code>.hex</code> file.</p>
+<p>GDB's Python support can be used to mock functions by modifying process state and calling <code>ret</code> to skip their execution.</p>
+</section>
+      </article>
+
+      <article
+      class="notecard-3x3 entries external">
+        <header><h1><a href="https://github.com/bburky/esphome-projects#irkeyboard">ESPHome IR→BLE Keyboard</a></h1></header>
+          <section><p>An <a href="https://esphome.io/">ESPHome</a> custom component to receive IR codes with <a href="https://esphome.io/components/remote_receiver.html"><code>remote_receiver</code></a> and convert them into BLE HID keystrokes. Uses a <code>Esp32BLEKeyboard</code> custom component and the <a href="https://github.com/T-vK/ESP32-BLE-Keyboard">ESP32 BLE Keyboard library</a>.</p>
+</section>
+      </article>
+
+      <article
+      class="notecard-5x3 entries external">
+        <header><h1><a href="https://nbviewer.org/gist/bburky/563457900bc566b0d261ff15847dadd6">Python WinRT Image Capture (and Focus Stacking)</a></h1></header>
+          <section><p><a href="https://pypi.org/project/winrt/">Python/WinRT</a> is a crazy thing:</p>
+<blockquote>
+<p>The Windows Runtime Python Projection (Python/WinRT) enables Python developers to access Windows Runtime APIs directly from Python in a natural and familiar way.</p>
+</blockquote>
+<p>Use some native WinRT APIs via Python to capture photos with variable focus. Then use <a href="http://hugin.sourceforge.net/docs/manual/Align_image_stack.html">align_image_stack</a> and <a href="http://enblend.sourceforge.net/">enblend</a> from the <a href="http://hugin.sourceforge.net/">Hugin</a> panorama tools to focus stack the images.</p>
+</section>
+      </article>
+
+      <article
+      class="notecard-5x3 entries ctf external">
+        <header><h1><a href="https://bburky.com/ctf-shittyaddon-writeup/">Capture The Flag Shitty Add-On Writeup</a></h1></header>
+          <section><p>An I²C AVR ATtiny85 CTF writeup.</p>
+<ul>
+<li><a href="https://bburky.com/ctf-shittyaddon-writeup/">CTF writeup</a></li>
+<li><a href="https://blog.wokwi.com/capture-the-flag-shitty-add-on/">CTF challenge description</a></li>
+<li><a href="https://github.com/urish/ctf-shittyaddon/blob/master/ctf-firmware/ctf-firmware.ino">Exploited source code</a></li>
+</ul>
+<p>I²C, AVR assembly (with IPython magic for shellcode development), flash self-programming, and blinking LEDs.</p>
+</section>
+      </article>
+
+      <article
+      class="notecard-6x4 entries ctf external">
+        <header><h1><a href="https://ctftime.org/writeup/25656">PlaidCTF 2019: A Whaley Good Joke writeup</a></h1></header>
+          <section><p>The challenge was to fix a broken Docker tar archive, with an unknown order of layers.</p>
+<p>A file isn't deleted from a layer unless it was already created by a previous layer, this makes it possible to solve a dependency tree of the layers (this is what most solutions to this challenge did).</p>
+<p>However, a much simpler solution is possible: sort the docker tar layers by mtime timestamp. The files created in the docker tar layers have different timestamps, accurate to one second.</p>
+<ol>
+<li>Find the newest timestamp in each layer</li>
+<li>Sort layers by their newest timestamp</li>
+<li>Reconstruct the container image tarball with this layer order</li>
+</ol>
+<ul>
+<li><a href="https://ctftime.org/writeup/25656">CTF writeup</a></li>
+<li><a href="https://gist.github.com/bburky/58edd7ce00cd4405429269695568fe2c">Solution source code</a></li>
+</ul>
+</section>
+      </article>
+
+      <article
+      class="notecard-6x4 entries projects external">
+        <header><h1><a href="https://bburky.com/NAS/">DIY NAS / Router</a></h1></header>
+          <section><p>A 2-bay, low power, ARM-based NAS and router.</p>
+<p>A custom NAS built inside a hot-swap HDD enclosure, with an acrylic side panel, using a Banana Pi BPI-R2.</p>
+<ul>
+<li><a href="https://bburky.com/NAS/">https://bburky.com/NAS/</a></li>
+<li><a href="https://hackaday.com/2018/09/18/arm-based-nas-is-a-low-cost-low-power-beauty/">hackaday</a></li>
+<li><a href="https://www.reddit.com/r/homelab/comments/9g1y5w/diy_nas_and_a_tiny_homelab/">Reddit</a></li>
+</ul>
+</section>
+      </article>
+
+      <article
+      class="notecard-6x4 entries external">
+        <header><h1><a href="https://bburky.com/MultitouchCalligraphy/">Multitouch Calligraphy (Code Golf)</a></h1></header>
+          <section><p>Use a multitouch touchscreen device and <a href="https://bburky.com/MultitouchCalligraphy/">try the demo</a>. A larger tablet sized device is suggested, but a phone works.</p>
+<p>Touch two fingers to the screen and drag them to draw a calligraphic pen stroke.</p>
+<p>Code golfed down to 208 bytes.</p>
+<ul>
+<li><a href="https://bburky.com/MultitouchCalligraphy/">Demo</a></li>
+<li><a href="https://github.com/bburky/MultitouchCalligraphy/blob/master/index.html">Source code</a></li>
+</ul>
+<h2><a href="https://xem.github.io/miniCodeEditor/">MiniCodeEditor</a></h2>
+<p>I also participated in golfing a few bytes out of <a href="https://twitter.com/MaximeEuziere">@xem</a>'s <a href="https://xem.github.io/miniCodeEditor/">MiniCodeEditor</a> by using <code>&lt;iframe srcdoc=&quot;...&quot;&gt;</code></p>
+<blockquote>
+<p>An online HTML/CSS/JS playground in 62 &amp; 142 bytes</h2></p>
+<p>Inspired by <a href="//codepen.io">Codepen</a>, <a href="//jsfiddle.net">JSFiddle</a>, <a href="//jsbin.com">JSbin</a> and <a href="//dabblet.com/">dabblet</a></p>
+<p>golfed by <a href=//twitter.com/MaximeEuziere>xem</a>, <a href=//twitter.com/p01>p01</a></a>, <a href=//twitter.com/subzey>subzey</a>, <a href=//twitter.com/aemkei>aemkei</a>, <a href="https://twitter.com/LauckAndLoad">rlauck</a>, <a href="https://twitter.com/bburky">bburky</a>, <a href="https://twitter.com/mmastrac">mmastrac</a> and <a href="https://twitter.com/justecorruptio">justecorruptio</a></p>
+</blockquote>
+</section>
+      </article>
+
+      <article
+      class="notecard-5x3 entries projects external">
+        <header><h1><a href="https://bburky.com/subredditgenderratios/">Subreddit Gender Ratios</a></h1></header>
+          <section><p>Estimate subreddit gender ratios by using a &quot;random&quot; (not great) sample of users with gender identified from Reddit flair.</p>
+<ul>
+<li><a href="https://bburky.com/subredditgenderratios/">Interactive data</a></li>
+<li><a href="https://nbviewer.jupyter.org/github/bburky/subredditgenderratios/blob/master/Subreddit%20Gender%20Ratios.ipynb">IPython notebook</a></li>
+</ul>
+<p>Google BigQuery, D3.js, Reddit API</p>
+</section>
+      </article>
+
+      <article
+      class="notecard-3x3 entries ctf external">
+        <header><h1><a href="https://github.com/bburky/mathematica-ctf-writeups">Mathematica CTF Writeups</a></h1></header>
+          <section><p>Writeups for multiple cryptography and stenography CTF challenges solved with Mathematica.</p>
+</section>
+      </article>
+
+      <article
+      class="notecard-5x3 entries ctf external">
+        <header><h1><a href="https://ctftime.org/writeup/20492">Google CTF 2016: Little Bobby Application writeup</a></h1></header>
+          <section><p>Android blind SQLi by sending Intents and a BroadcastReceiver.</p>
+<ul>
+<li><a href="https://ctftime.org/writeup/20492">CTF Writeup</a></li>
+<li><a href="https://gist.github.com/9af1f82c8c1bb5dfb60624bef7762825">Solution source code</a></li>
+</ul>
+</section>
+      </article>
+
+      <article
+      class="notecard-6x4 entries cve">
+        <header><ul class="cve-header"><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2016-3105">CVE-2016-3105</a></li>
+            <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2016-3068">CVE-2016-3068</a></li>
+            <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2016-3069">CVE-2016-3069</a></li>
+            
+          </ul></header>
+          <section><h2>CVE-2016-3105 Arbitrary code execution when converting Git repos</h2>
+<p><a href="https://www.mercurial-scm.org/wiki/WhatsNew/Archive#Mercurial_3.8_.2F_3.8.1_.282016-5-1.29">Mercurial 3.8.1</a></p>
+<blockquote>
+<p>Mercurial prior to 3.8 allowed arbitrary code execution when using the convert extension on Git repos with hostile names. This could affect automated code conversion services that allow arbitrary repository names. This is a further side-effect of Git CVE-2015-7545. Reported and fixed by Blake Burkhart.</p>
+</blockquote>
+<ul>
+<li><a href="https://www.mercurial-scm.org/repo/hg/rev/a56296f55a5e">convert: pass absolute paths to git (SEC)</a></li>
+</ul>
+<h2>CVE-2016-3068 Arbitrary code execution with Git subrepos</h2>
+<p><a href="https://www.mercurial-scm.org/wiki/WhatsNew/Archive#Mercurial_3.7.3_.282016-3-29.29">Mercurial 3.7.3</a></p>
+<blockquote>
+<p>Mercurial prior to 3.7.3 allowed URLs for Git subrepos that could result in arbitrary code execution on clone. This is a further side-effect of Git CVE-2015-7545. Reported by Blake Burkhart.</p>
+</blockquote>
+<ul>
+<li><a href="https://www.mercurial-scm.org/repo/hg/rev/34d43cb85de8">subrepo: set GIT_ALLOW_PROTOCOL to limit git clone protocols (SEC)</a></li>
+</ul>
+<h2>CVE-2016-3069 Arbitrary code execution when converting Git repos</h2>
+<p><a href="https://www.mercurial-scm.org/wiki/WhatsNew/Archive#Mercurial_3.7.3_.282016-3-29.29">Mercurial 3.7.3</a></p>
+<blockquote>
+<p>Mercurial prior to 3.7.3 allowed arbitrary code execution when converting Git repos with hostile names. This could affect automated conversion services. Reported by Blake Burkhart.</p>
+</blockquote>
+<ul>
+<li><a href="https://www.mercurial-scm.org/repo/hg/rev/197eed39e3d5">convert: add new, non-clowny interface for shelling out to git (SEC)</a></li>
+<li><a href="https://www.mercurial-scm.org/repo/hg/rev/cdda7b96afff">convert: rewrite calls to Git to use the new shelling mechanism (SEC)</a></li>
+<li><a href="https://www.mercurial-scm.org/repo/hg/rev/b732e7f2aba4">convert: dead code removal - old git calling functions (SEC)</a></li>
+<li><a href="https://www.mercurial-scm.org/repo/hg/rev/80cac1de6aea">convert: rewrite gitpipe to use common.commandline (SEC)</a></li>
+<li><a href="https://www.mercurial-scm.org/repo/hg/rev/ae279d4a19e9">convert: test for shell injection in git calls (SEC)</a></li>
+</ul>
+</section>
+      </article>
+
+      <article
+      class="notecard-5x3 entries bounty cve external">
+        <header><ul class="cve-header"><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2016-3068">CVE-2016-3068</a></li>
+            
+          </ul><h1><a href="https://bounty.github.com/researchers/bburky.html">Mercurial remote code execution in GitHub Importer</a></h1></header>
+          <section><blockquote>
+<p><a href="https://github.com/bburky">@bburky</a> reported a remote code execution vulnerability in Mercurial that could be triggered during repository imports using GitHub Importer.</p>
+</blockquote>
+</section>
+      </article>
+
+      <article
+      class="notecard-6x4 entries cve">
+        <header><ul class="cve-header"><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2015-7545">CVE-2015-7545</a></li>
+            
+          </ul><h1>Git remote code execution via submodules and git-remote-ext</h1></header>
+          <section><p>Git allows shell commands to be specified in <code>ext</code> URLs for remote repositories. For example, <code>git clone 'ext::sh -c whoami% &gt;&amp;2'</code> will execute the <code>whoami</code> command to try to connect to a remote repository. To protect users from accidentally trying to clone a malicious URL, Git submodule URLs were restricted to a safe set of protocols in <a href="https://github.com/git/git/blob/90f7b16b3adc78d4bbabbd426fb69aa78c714f71/Documentation/RelNotes/2.6.1.txt#L13-L18">Git v2.6.1</a>.</p>
+<blockquote>
+<p>Some protocols (like git-remote-ext) can execute arbitrary code
+found in the URL.  The URLs that submodules use may come from
+arbitrary sources (e.g., .gitmodules files in a remote
+repository), and can hurt those who blindly enable recursive
+fetch.  Restrict the allowed protocols to well known and safe
+ones.</p>
+</blockquote>
+<h2><a href="https://nvd.nist.gov/vuln/detail/CVE-2015-7545">CVE-2015-7545</a></h2>
+<blockquote>
+<p>The (1) git-remote-ext and (2) unspecified other remote helper programs in Git before 2.3.10, 2.4.x before 2.4.10, 2.5.x before 2.5.4, and 2.6.x before 2.6.1 do not properly restrict the allowed protocols, which might allow remote attackers to execute arbitrary code via a URL in a (a) .gitmodules file or (b) unknown other sources in a submodule.</p>
+</blockquote>
+<h2>Fix</h2>
+<ul>
+<li><a href="https://github.com/git/git/commit/a5adaced2e13c135d5d9cc65be9eb95aa3bacedf">transport: add a protocol-whitelist environment variable</a></li>
+<li><a href="https://github.com/git/git/commit/33cfccbbf35a56e190b79bdec5c85457c952a021">submodule: allow only certain protocols for submodule fetches</a></li>
+<li><a href="https://github.com/git/git/commit/5088d3b38775f8ac12d7f77636775b16059b67ef">transport: refactor protocol whitelist code</a></li>
+<li><a href="https://github.com/git/git/commit/f4113cac0c88b4f36ee6f3abf3218034440a68e3">http: limit redirection to protocol-whitelist</a></li>
+<li><a href="https://github.com/git/git/commit/b258116462399b318c86165c61a5c7123043cfd4">http: limit redirection depth</a></li>
+</ul>
+<p><code>git-submodule</code> was restricted to a safe to set of submodules by default: <code>GIT_ALLOW_PROTOCOL=file:git:http:https:ssh</code>.</p>
+<p>Additionally, inside git's <code>http.c</code>, libcurl was restricted to the same protocol whitelist. Libcurl's recusion depth was also limited to prevent a redirect loop from causing git to hang.</p>
+</section>
+      </article>
+
+      <article
+      class="notecard-4x6 entries projects external">
+        <header><h1><a href="https://github.com/bburky/Core-fonts-for-the-Web-web-fonts">Core fonts for the Web web fonts</a></h1></header>
+          <section><p>The Microsoft <a href="https://en.wikipedia.org/wiki/Core_fonts_for_the_Web">Core fonts for the Web</a> included Andale Mono, Arial, Arial Black, Comic Sans MS, Courier New, Georgia, Impact, Times New Roman, Trebuchet MS, Verdana and Webdings as TrueType fonts. Though Microsoft no longer distributes these fonts, the old versions may still be redistributed freely. However, the <a href="http://www.microsoft.com/typography/fontpack/eula.htm">EULA</a> specifies that the fonts may not be modified in any way.</p>
+<p>But wouldn't it be fun to use them as <code>@font-face</code> web fonts? But sadly the original, redistributable, format is only either <code>.exe</code> or <code>.sit.hqx</code> files...</p>
+<p>With sufficient usage of JavaScript, random HTML5 features (<a href="https://developer.mozilla.org/en-US/docs/Web/API/Blob">blob</a> URLs in dynamically generated stylesheet rules) and <a href="http://emscripten.org">emscripten</a>-compiled <a href="http://www.cabextract.org.uk/">cabextract</a>, anything is possible.</p>
+<ul>
+<li><a href="https://github.com/bburky/Core-fonts-for-the-Web-web-fonts">Source code</a></li>
+<li><a href="http://bburky.com/Core-fonts-for-the-Web-web-fonts/demo.html">Demo</a></li>
+</ul>
+</section>
+      </article>
+
+      <article
+      class="notecard-4x6 entries projects external">
+        <header><h1><a href="https://bburky.com/blocktoblock/">Block to Block Game</a></h1></header>
+          <section><p>An HTML5 sliding block puzzle game</p>
+<p>Originally written framework-less using the <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D">JavaScript Canvas 2D API</a> directly. Rewritten in late 2017 to learn the <a href="http://phaser.io/">Phaser</a> game framework.</p>
+<p>The original version supported both keyboard and multitouch input. The Phaser rewrite only supports keyboard input.</p>
+<ul>
+<li><a href="https://bburky.com/blocktoblock/">Play game</a></li>
+<li><a href="https://github.com/bburky/blocktoblock">Source code</a></li>
+<li><a href="https://bburky.com/blocktoblock/original/">Play original game</a></li>
+<li><a href="https://github.com/bburky/blocktoblock/tree/original">Original source code</a></li>
+</ul>
+</section>
+      </article></body>
+</html>

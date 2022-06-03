@@ -1,0 +1,341 @@
+
+body {
+    background: #b5b5b5;;
+    text-align: center;
+
+    /* Force scrollbar to avoid vw changes if it disappears */
+    overflow-y: scroll;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+
+article, header.paper-85x11 {
+    text-align: left;
+    margin: 0.5em;
+    box-sizing: border-box;
+    position: relative;
+}
+
+article {
+    background: rgb(247, 247, 247);
+    box-shadow: 5px 8px 20px 5px rgba(0,0,0,0.25);
+}
+
+article header {
+    margin-bottom: 1em;
+}
+
+.notecard-6x4 {
+    max-width: 6in;
+    min-height: 4in;
+    padding: 0.25in;
+}
+
+.notecard-4x6 {
+    max-width: 4in;
+    min-height: 6in;
+    padding: 0.25in;
+}
+
+.notecard-5x3 {
+    max-width: 5in;
+    min-height: 3in;
+    padding: 0.25in;
+}
+
+.notecard-3x5 {
+    max-width: 3in;
+    min-height: 5in;
+    padding: 0.25in;
+}
+
+.notecard-3x3 {
+    max-width: 3in;
+    min-height: 3in;
+    padding: 0.25in;
+}
+
+@media (max-width: 5in) {
+    .notecard-6x4, .notecard-4x6, .notecard-5x3, .notecard-3x5, .notecard-3x3 {
+        /* Fit cards to screen on mobile*/
+        max-width: unset;
+        min-height: unset;
+        /* Tighten margins */
+        margin: 0.25em 0;
+    }
+    ul.cve-header {
+        /* Fix CVE label position with new margins */
+        margin-right: -2em !important;
+    }
+}
+
+/* TODO: this is a hack */
+/* Using inline-block seems to mess up layout */
+.notecard-6x4.overflow  * {
+    overflow: hidden;
+    max-width: 6in;
+    max-height: 4in;
+    /* display: inline-block !important; */
+}
+.notecard-6x4.overflow:after {
+    content: "";
+    display: block;
+    left: 0;
+    right: 0;
+    position: absolute;
+    height: 1in;
+    bottom: 0;
+    background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, .75) 25%, rgba(255,255,255,1));
+}
+.notecard-6x4.overflow {
+    padding-right: 0;
+    padding-bottom: 0;
+}
+
+header.paper-85x11 {
+    width: 8.5in;
+    padding: 0.25in;
+    font-family: "john-doe", "American Typewriter", Courier, "Courier New", monospace, serif;
+    letter-spacing: 0.25px;
+    font-size: 12px;
+    color: rgba(0,0,0,0.25);
+    text-shadow: 0 -1px 1px rgba(0,0,0,0.12);
+    transform: rotate(-7deg);
+
+    /* TODO: I think this is in 12px units */
+    min-height: 35em;
+
+    /* Centering */
+    /* Note this will never go past the lenft edge, a negative margin does nothing. */
+    margin: 0.25in calc(50vw - 4.25in) 0 auto;
+    /* To make sure the nav below is visible, use a transparent border */
+    border-left: 10em solid transparent;
+    /* And to allow the nav to be clickable, disable pointer events */
+    pointer-events: none;
+}
+
+header.paper-85x11 * {
+    /* re-enable pointer events for children to let links work */
+    pointer-events: all;
+}
+
+header.paper-85x11 h1 {
+    font-family: inherit;
+}
+
+/* Add a 8.5x11 white backdrop behind the text */
+header.paper-85x11::before {
+    width: 8.5in;
+    min-height: 11in;
+    background: white;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    content: "";
+}
+
+/* Add a drop shadow over the text */
+header.paper-85x11::after {
+    width: 8.5in;
+    min-height: 11in;
+    pointer-events: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: radial-gradient(circle at calc(50% - 1.5in) 2in, rgba(0,0,0,0.0) 2in, rgba(0,0,0,0.65) 12in, rgba(0,0,0,0.85) 100%);
+    display: block;
+    content: "";
+    box-shadow: 5px 8px 20px 5px rgba(0,0,0,0.25);
+}
+
+input.nav {
+    opacity: 0;
+    position: fixed;
+    width: 0;
+}
+label.nav {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: white;
+    background: #555;
+    padding: 1em;
+    border-radius: 1em;
+    display: block;
+    text-align: left;
+    position: absolute;
+    width: 5in;
+    /* minimum left margin is 1em, but will be overridden by the @media query below */
+    left: 1em;
+}
+
+#feed {
+    display: block;
+    position: absolute;
+    text-decoration: none;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: black;
+    background: rgb(220, 220, 220);
+    padding: 1em;
+    border-radius: 1em;
+    display: block;
+    text-align: left;
+    position: absolute;
+    width: 5in;
+    top: calc(1in + 16em);
+    /* minimum left margin is 1em, but will be overridden by the @media query below */
+    left: 1em;
+}
+#feed::before {
+    content: "\f143";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    margin-right: 0.25em;
+    color: orange;
+    text-decoration: none;
+    display: inline-block;
+
+}
+label.nav:hover, #feed:hover {
+    text-decoration: underline;
+}
+
+/* This exact number depends on the full width of 8.5in after rotation... but this seems really close */
+@media (min-width: 9.3in) {
+    label.nav, #feed {
+        /* If there is enough room to the left, offset the nav to the edge of the centered page */
+        /* a @media query is needed to avoid negative numbers */
+        left: calc(50vw - 4.55in);
+    }
+}
+
+/* Absolute positioning of nav. :( */
+label.nav:nth-of-type(1) {
+    top: 1in;
+}
+label.nav:nth-of-type(2) {
+    top: calc(1in + 4em);
+}
+label.nav:nth-of-type(3) {
+    top: calc(1in + 8em);
+}
+label.nav:nth-of-type(4) {
+    top: calc(1in + 12em);
+}
+
+input.nav:checked + label {
+    background-color:#bfb;
+    color: black;
+}
+
+pre h1 {
+    font-size: inherit;
+    display: inline;
+}
+
+pre a {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+pre a:hover {
+    text-decoration: underline;
+}
+
+article header h1 a {
+    padding-right: 1em;
+}
+
+article header h1 a:before {
+    margin-right: 0.25em;
+    content: "\f08e";
+    font-family: "Font Awesome 6 Free";
+    display: inline-block;
+    text-decoration: none;
+}
+
+article header h1 a[href^="https://github.com/"]:before, 
+article header h1 a[href^="https://bounty.github.com/"]:before, 
+article header h1 a[href^="https://gist.github.com/"]:before {
+    content: "\f09b";
+    font-family: "Font Awesome 6 Brands";
+    color: black;
+}
+
+article.ctf header a:before,
+article header h1 a[href^="https://ctftime.org/"]:before {
+    content: "\f024";
+    font-family: "Font Awesome 6 Free";
+    color: red;
+}
+
+ul.cve-header {
+    margin: 0;
+    padding: 0;
+    margin-right: -2.5em;
+}
+
+ul.cve-header li {
+    list-style-type: none;
+    background: red;
+    color: white;
+    display: inline;
+    float: right;
+    clear: right;
+    padding: 0.25em 0.5em;
+    margin-right: 0.25em;
+    border-radius: 0.5em;
+    margin-bottom: 0.5em;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 90%;
+    font-weight: bold;
+}
+
+ul.cve-header li a {
+    color: unset;
+    text-decoration: none;
+}
+
+ul.cve-header li a:hover {
+    text-decoration: underline;
+}
+
+blockquote {
+    margin: 0;
+    padding: 0 0 0 1em;
+    border-left: 0.25em solid black;
+}
+
+ul, ol {
+    margin-left: 0;
+    padding-left: 1em;
+}
+
+li {
+    /* There's no way to control spacing between the ::marker and the li better? :( */
+    padding-left: 0.25em;
+}
+
+/* Default to hiding all articles */
+article {
+    display: none;
+}
+
+/* And re-enable them when the correct radio button is selected */
+#nav-all:checked ~ article {
+    display: inline-table;
+}
+#nav-ctf:checked ~ article.ctf {
+    display: inline-table;
+}
+#nav-cve:checked ~ article.cve {
+    display: inline-table;
+}
+#nav-projects:checked ~ article.projects {
+    display: inline-table;
+}
