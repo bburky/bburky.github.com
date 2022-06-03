@@ -2,7 +2,9 @@
 body {
     background: #b5b5b5;;
     text-align: center;
-    text-rendering: optimizeLegibility;
+
+    /* Force scrollbar to avoid vw changes if it disappears */
+    overflow-y: scroll;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -12,21 +14,18 @@ h1, h2, h3, h4, h5, h6 {
 
 article, header.paper-85x11 {
     text-align: left;
-    background: rgb(247, 247, 247);
-    display: inline-table;
     margin: 0.5em;
     box-sizing: border-box;
-    box-shadow: 5px 8px 20px 5px rgba(0,0,0,0.25);
     position: relative;
+}
+
+article {
+    background: rgb(247, 247, 247);
+    box-shadow: 5px 8px 20px 5px rgba(0,0,0,0.25);
 }
 
 article header {
     margin-bottom: 1em;
-}
-
-
-a:hover {
-    text-decoration: underline;
 }
 
 .notecard-6x4 {
@@ -60,45 +59,139 @@ a:hover {
 }
 
 header.paper-85x11 {
-    background: #fff;
+    text-rendering: optimizeLegibility;
     width: 8.5in;
-    min-height: 11in;
     padding: 0.25in;
-    margin-top: 2em;
-    margin-bottom: -6in;
     font-family: "john-doe", "American Typewriter", Courier, "Courier New", monospace, serif;
     letter-spacing: 0.25px;
     font-size: 12px;
-    color: #e0e0e0;
     color: rgba(0,0,0,0.19);
     text-shadow: 0 -1px 1px rgba(0,0,0,0.12);
     transform: rotate(-7deg);
 
-    margin-right: -4in;
-
-    position: absolute;
-    top: 0;
-    left: calc(50vw - 4in);
+    /* Centering */
+    /* Note this will never go past the lenft edge, a negative margin does nothing. */
+    margin: 0 calc(50vw - 4.25in) 3em auto;
+    /* To make sure the nav below is visible, use a transparent border */
+    border-left: 10em solid transparent;
+    /* And to allow the nav to be clickable, disable pointer events */
+    pointer-events: none;
 }
 
+header.paper-85x11 * {
+    /* re-enable pointer events for children to let links work */
+    pointer-events: all;
+}
 
+header.paper-85x11 h1 {
+    font-family: inherit;
+}
+
+/* Add a 8.5x11 white backdrop behind the text */
+header.paper-85x11::before {
+    width: 8.5in;
+    min-height: 11in;
+    background: white;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    content: "";
+}
+
+/* Add a drop shadow over the text */
 header.paper-85x11::after {
+    width: 8.5in;
+    min-height: 11in;
     pointer-events: none;
     position: absolute;
     left: 0;
     top: 0;
     background: radial-gradient(circle at calc(50% - 1.5in) 2in, rgba(0,0,0,0.0) 2in, rgba(0,0,0,0.65) 12in, rgba(0,0,0,0.85) 100%);
-    width: 100%;
-    height: 11in;
     display: block;
     content: "";
+    box-shadow: 5px 8px 20px 5px rgba(0,0,0,0.25);
 }
 
+input.nav {
+    opacity: 0;
+    position: fixed;
+    width: 0;
+}
+label.nav {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: white;
+    background: #555;
+    padding: 1em;
+    border-radius: 1em;
+    display: block;
+    text-align: left;
+    position: absolute;
+    width: 5in;
+    /* minimum left margin is 1em, but will be overridden by the @media query below */
+    left: 1em;
+}
 
-.block {
-    display: table;
-    margin-left: auto;
-    margin-right: auto;
+#feed {
+    display: block;
+    position: absolute;
+    text-decoration: none;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: black;
+    background: rgb(220, 220, 220);
+    padding: 1em;
+    border-radius: 1em;
+    display: block;
+    text-align: left;
+    position: absolute;
+    width: 5in;
+    top: calc(1in + 16em);
+    /* minimum left margin is 1em, but will be overridden by the @media query below */
+    left: 1em;
+}
+#feed::before {
+    content: "\f143";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    margin-right: 0.25em;
+    color: orange;
+    text-decoration: none;
+    display: inline-block;
+
+}
+label.nav:hover, #feed:hover {
+    text-decoration: underline;
+}
+
+/* This exact number depends on the full width of 8.5in after rotation... but this seems really close */
+@media (min-width: 9.3in) {
+    label.nav, #feed {
+        /* If there is enough room to the left, offset the nav to the edge of the centered page */
+        /* a @media query is needed to avoid negative numbers */
+        left: calc(50vw - 4.55in);
+    }
+}
+
+/* Absolute positioning of nav. :( */
+label.nav:nth-of-type(1) {
+    top: 1in;
+}
+label.nav:nth-of-type(2) {
+    top: calc(1in + 4em);
+}
+label.nav:nth-of-type(3) {
+    top: calc(1in + 8em);
+}
+label.nav:nth-of-type(4) {
+    top: calc(1in + 12em);
+}
+
+input.nav:checked + label {
+    background-color:#bfb;
+    color: black;
 }
 
 pre h1 {
@@ -121,9 +214,6 @@ article header h1 a {
 
 article header h1 a:before {
     margin-right: 0.25em;
-    /* boxed arrow */
-    /* content: "\f14c";  */
-    /* external link arrow */
     content: "\f08e";
     font-family: "Font Awesome 6 Free";
     display: inline-block;
@@ -186,48 +276,25 @@ ul, ol {
 }
 
 li {
-    /* TODO: there's no way to control spacing between the ::marker and the li better? */
+    /* There's no way to control spacing between the ::marker and the li better? :( */
     padding-left: 0.25em;
 }
 
-#nav-ctf:after {
-    content: "CTF";
-}
-input.nav {
-    opacity: 0;
-    position: fixed;
-    width: 0;
-}
-label.nav {
-    width: 5em;
-    background: #555;
-
-    padding: 1em;
-    margin-bottom: 1em;
-    border-radius: 1em;
-    min-width: 5em;
-
-    display: block;
-}
-
-
-input[type="radio"]:checked + label {
-    background-color:#bfb;
-    border-color: #4c4;
-}
-
+/* Default to hiding all articles */
 article {
     display: none;
 }
 
+/* And re-enable them when the correct radio button is selected */
 #nav-all:checked ~ article {
     display: inline-table;
 }
-
 #nav-ctf:checked ~ article.ctf {
     display: inline-table;
 }
-
 #nav-cve:checked ~ article.cve {
+    display: inline-table;
+}
+#nav-projects:checked ~ article.projects {
     display: inline-table;
 }
