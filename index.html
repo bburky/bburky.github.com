@@ -53,8 +53,8 @@ END:<span class="field">VCARD</span>
         <header><ul class="cve-header"><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2023-34091">CVE-2023-34091</a></li>
             
           </ul><h1><a href="https://medium.com/defense-unicorns/kyverno-cve-2023-34091-bypassing-policies-using-kubernetes-finalizers-14e51843016e">Kyverno policy bypass using Kubernetes finalizers</a></h1></header>
-          <section><p>Discovered that in versions of Kyverno prior to 1.10.0, that Kyverno does not enforce policies on resources with a <code>deletionTimestamp</code>, which occurs during finalization after resource deletion begins. This allows a bypass of &quot;validate, generate, or mutate-existing policies, even in cases where the validationFailureAction field is set to Enforce.&quot;</p>
-<p>Impact is low for most Kubernetes resources because most controllers ignore changes during finalization. However, a few built in kinds such as ConfigMaps, Secrets and Services may honor changes during deletion. Custom resources may also be affected.</p>
+          <section><p>Discovered that in versions of Kyverno prior to 1.10.0, Kyverno does not enforce policies on resources with a <code>deletionTimestamp</code>, which occurs during finalization after resource deletion begins. This allows a bypass of &quot;validate, generate, or mutate-existing policies, even in cases where the validationFailureAction field is set to Enforce.&quot;</p>
+<p>Impact is low for most Kubernetes resources because most controllers ignore changes during finalization. However, a few built in resource kinds such as ConfigMaps, Secrets and Services may honor changes during deletion. Custom resources may also be affected.</p>
 <p>An attacker could first maliciously add a non-existent finalizer and begin deletion of a resource, then perform a malicious update of the resource bypassing Kyverno policies.</p>
 <ul>
 <li><a href="https://medium.com/defense-unicorns/kyverno-cve-2023-34091-bypassing-policies-using-kubernetes-finalizers-14e51843016e">Blog post, writeup, timeline</a></li>
