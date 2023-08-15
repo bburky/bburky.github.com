@@ -12,9 +12,9 @@ accentColor: '#999'
 icon: TODO
 class: notecard-6x4
 ---
-Discovered that in versions of Kyverno prior to 1.10.0, that Kyverno does not enforce policies on resources with a `deletionTimestamp`, which occurs during finalization after resource deletion begins. This allows a bypass of "validate, generate, or mutate-existing policies, even in cases where the validationFailureAction field is set to Enforce."
+Discovered that in versions of Kyverno prior to 1.10.0, Kyverno does not enforce policies on resources with a `deletionTimestamp`, which occurs during finalization after resource deletion begins. This allows a bypass of "validate, generate, or mutate-existing policies, even in cases where the validationFailureAction field is set to Enforce."
 
-Impact is low for most Kubernetes resources because most controllers ignore changes during finalization. However, a few built in kinds such as ConfigMaps, Secrets and Services may honor changes during deletion. Custom resources may also be affected.
+Impact is low for most Kubernetes resources because most controllers ignore changes during finalization. However, a few built in resource kinds such as ConfigMaps, Secrets and Services may honor changes during deletion. Custom resources may also be affected.
 
 An attacker could first maliciously add a non-existent finalizer and begin deletion of a resource, then perform a malicious update of the resource bypassing Kyverno policies.
 
