@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "build": "eleventy"
   },
@@ -17,9 +18,12 @@
   },
   "homepage": "https://github.com/bburky/bburky.github.com#readme",
   "devDependencies": {
-    "@11ty/eleventy": "^1.0.1",
+    "@11ty/eleventy": "^3.0.0-beta.1",
     "@sindresorhus/slugify": "^2.1.0",
     "node-fetch": "^3.2.4",
     "octokit": "^1.7.1"
+  },
+  "dependencies": {
+    "@11ty/eleventy-plugin-rss": "^2.0.2"
   }
 }

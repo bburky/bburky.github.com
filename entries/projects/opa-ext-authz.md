@@ -7,6 +7,3 @@ tags: [projects, draft]
 TODO
 
 _test_
-
-<!-- excerpt -->
-zzz
