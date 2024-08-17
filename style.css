@@ -28,6 +28,10 @@ article header {
     margin-bottom: 1em;
 }
 
+article:target {
+    background: #ffff88;
+}
+
 .notecard-6x4 {
     max-width: 6in;
     min-height: 4in;
