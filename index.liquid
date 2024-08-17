@@ -11,6 +11,7 @@ title: bburky
     <title>{{ title }}</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
+    <link rel="alternate" type="application/atom+xml" title="RSS Feed for bburky.com" href="feed.xml" >
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💣</text></svg>">
   </head>
   <body>
@@ -23,7 +24,7 @@ title: bburky
       <label class="nav" for="nav-cve">CVEs</label>
       <input class="nav" type="radio" id="nav-ctf" name="nav" value="ctf">
       <label class="nav" for="nav-ctf">CTFs</label>
-      <a href="#" id="feed">Feed</a>
+      <a href="feed.xml" id="feed">Feed</a>
 
     <header class="paper-85x11">
     <pre>
@@ -53,10 +54,9 @@ END:<span class="field">VCARD</span>
   </header>
 
 
-    {%- for post in collections.entries reversed -%}
-        {% if post.data.tags contains 'draft' %}{% continue %}{% endif %}
-
+    {%- for post in collections.published_entries reversed -%}
       <article
+      id="{{post.data.slug}}"
       class="
         {%- if post.data.class -%}
           {{ post.data.class | join: " " }}

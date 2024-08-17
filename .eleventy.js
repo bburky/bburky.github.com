@@ -1,6 +1,16 @@
-const { EleventyRenderPlugin } = require("@11ty/eleventy");
+import pluginRss from "@11ty/eleventy-plugin-rss";
 
-module.exports = function (eleventyConfig) {
+// import { feedPlugin } from "@11ty/eleventy-plugin-rss";
+
+export default function(eleventyConfig) {
+
+	eleventyConfig.addPlugin(pluginRss);
+
+	eleventyConfig.addCollection('published_entries', collections => {
+		return collections.getFilteredByTag('entries')
+		  .filter(entry => !entry.data.draft);
+	  });
+
   eleventyConfig.addPassthroughCopy("CNAME");
 
   eleventyConfig.addTemplateFormats([
@@ -12,12 +22,10 @@ module.exports = function (eleventyConfig) {
     excerpt_separator: "<!-- excerpt -->"
   });
 
-  eleventyConfig.addPlugin(EleventyRenderPlugin);
   eleventyConfig.addFilter('excerpt', async function (content) {
-    const { renderTemplate } = eleventyConfig.javascriptFunctions;
     if (!content.data.page?.excerpt) {
       return content.templateContent;
     }
-    return await renderTemplate(content.data.page.excerpt, "md", content.data);
+	return await this.renderTemplate(content.data.page.excerpt, "md", content.data);
   });
 };
