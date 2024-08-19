@@ -3,7 +3,7 @@ title: "Buildah/Podman chroot isolation: environment value leakage to intermedia
 date: 2021-06-15
 url: https://github.com/containers/buildah/security/advisories/GHSA-7638-r9r3-rmjj
 cve:
-  - CVE-2021-3602
+  CVE-2021-3602: https://github.com/containers/buildah/security/advisories/GHSA-7638-r9r3-rmjj
 icon: TODO? red hat?
 class: notecard-4x6
 tags: cve

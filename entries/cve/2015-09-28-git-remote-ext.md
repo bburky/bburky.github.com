@@ -2,7 +2,7 @@
 date: 2015-09-28 
 title: Git remote code execution via submodules and git-remote-ext
 cve:
-  - CVE-2015-7545
+  CVE-2015-7545: https://nvd.nist.gov/vuln/detail/CVE-2015-7545
 background: TODO
 color: '#4e443c'
 accentColor: '#f14e32'

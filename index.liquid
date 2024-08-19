@@ -71,7 +71,7 @@ END:<span class="field">VCARD</span>
           {%- if post.data.cve -%}
           <ul class="cve-header">
             {%- for cve in post.data.cve -%}
-              <li><a href="https://nvd.nist.gov/vuln/detail/{{ cve }}">{{ cve }}</a></li>
+              <li><a href="{{ cve[1] }}">{{ cve[0] }}</a></li>
             {% endfor %}
           </ul>
           {%- endif -%}
