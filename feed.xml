@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+  <title>bburky.com</title>
+  <subtitle>Blake Burkhart</subtitle>
+  <link href="https://bburky.com/feed.xml" rel="self" />
+  <link href="https://bburky.com/" />
+  <updated>2024-07-09T00:00:00Z</updated>
+  <id>https://bburky.com/</id>
+  <author>
+    <name>Blake Burkhart</name>
+  </author>
+  <entry>
+    <title>Missing authorization check on cross repository blob mount in multiple open source container registries</title>
+    <link href="https://bburky.com/#missing-cross-repository-blob-mount-authorization-check" />
+    <updated>2024-07-09T00:00:00Z</updated>
+    <id>https://bburky.com/#missing-cross-repository-blob-mount-authorization-check</id>
+    <content type="html">&lt;p&gt;The &lt;a href=&quot;https://github.com/opencontainers/distribution-spec/blob/main/spec.md#mounting-a-blob-from-another-repository&quot;&gt;&lt;code&gt;POST /v2/&amp;lt;name&amp;gt;/blobs/uploads/?mount=&amp;lt;digest&amp;gt;&amp;amp;from=&amp;lt;other_name&amp;gt;&lt;/code&gt; cross repository blob mount Docker registry HTTP v2 API endpoint&lt;/a&gt; is unique in that it requires and access control check on two container names. Many new registry implementations have accidentally omitted this second access control check.&lt;/p&gt;
+&lt;h2&gt;&lt;a href=&quot;https://github.com/project-zot/zot/security/advisories/GHSA-55r9-5mx9-qq7r&quot;&gt;Zot CVE-2024-39897&lt;/a&gt;&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Cache driver GetBlob() allows read access to any blob without access control check.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;&lt;a href=&quot;https://github.com/go-gitea/gitea/releases/tag/v1.20.0&quot;&gt;Gitea&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Fixed in &lt;a href=&quot;https://github.com/go-gitea/gitea/releases/tag/v1.20.0&quot;&gt;v1.20.0&lt;/a&gt;. &lt;a href=&quot;https://github.com/go-gitea/gitea/pull/22759&quot;&gt;PR #22759&lt;/a&gt; created 1 day after reporting, but unmerged for 5 months. No CVE issued.&lt;/p&gt;
+&lt;h2&gt;And more...&lt;/h2&gt;
+&lt;p&gt;At least one more reported but unfixed instance in another open source registry, and even more instances in smaller registries that I haven&#39;t yet reported.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Overly permissive IAM policy in philips-labs/terraform-aws-github-runner</title>
+    <link href="https://bburky.com/#terraform-aws-github-runner-GHSA-w423-qwm2-w2jq" />
+    <updated>2024-07-01T00:00:00Z</updated>
+    <id>https://bburky.com/#terraform-aws-github-runner-GHSA-w423-qwm2-w2jq</id>
+    <content type="html">&lt;p&gt;Overly permissive AWS IAM policy allowed runner EC2 instances to read sensitive tokens for other instances from SSM SecureStrings.&lt;/p&gt;
+&lt;p&gt;Runner EC2 instances could read other instances&#39; tokens (jitconfig and registration tokens) from SSM parameters. A runner&#39;s jitconfig is normally scoped down to a single repo, workflow and job. Stealing another runner&#39;s jitconfig allows lateral movement throughout the GitHub organization or repository and exposes the other runner&#39;s GITHUB_TOKEN, GitHub OIDC JWT ID token and any secrets.&lt;/p&gt;
+&lt;p&gt;Submitted patch with ResourceTag based IAM policy checking &lt;code&gt;ec2:SourceInstanceARN&lt;/code&gt; and added tags to SSM parameters.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/philips-labs/terraform-aws-github-runner/security/advisories/GHSA-w423-qwm2-w2jq&quot;&gt;Vulnerability advisory&lt;/a&gt; (No CVE issued)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/philips-labs/terraform-aws-github-runner/commit/9399cf29bec963dfa305f367f37c098a76130371&quot;&gt;Patch with ResourceTag based IAM policy&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Kyverno policy bypass using Kubernetes finalizers</title>
+    <link href="https://bburky.com/#kyverno-deletiontimestamp" />
+    <updated>2023-06-01T00:00:00Z</updated>
+    <id>https://bburky.com/#kyverno-deletiontimestamp</id>
+    <content type="html">&lt;p&gt;Discovered that in versions of Kyverno prior to 1.10.0, Kyverno does not enforce policies on resources with a &lt;code&gt;deletionTimestamp&lt;/code&gt;, which occurs during finalization after resource deletion begins. This allows a bypass of &amp;quot;validate, generate, or mutate-existing policies, even in cases where the validationFailureAction field is set to Enforce.&amp;quot;&lt;/p&gt;
+&lt;p&gt;Impact is low for most Kubernetes resources because most controllers ignore changes during finalization. However, a few built in resource kinds such as ConfigMaps, Secrets and Services may honor changes during deletion. Custom resources may also be affected.&lt;/p&gt;
+&lt;p&gt;An attacker could first maliciously add a non-existent finalizer and begin deletion of a resource, then perform a malicious update of the resource bypassing Kyverno policies.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://medium.com/defense-unicorns/kyverno-cve-2023-34091-bypassing-policies-using-kubernetes-finalizers-14e51843016e&quot;&gt;Blog post, writeup, timeline&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/kyverno/kyverno/security/advisories/GHSA-hq4m-4948-64cc&quot;&gt;Kyverno security advisory&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Playlist Extension for Playnite</title>
+    <link href="https://bburky.com/#playnite-playlist" />
+    <updated>2021-09-12T00:00:00Z</updated>
+    <id>https://bburky.com/#playnite-playlist</id>
+    <content type="html">&lt;p&gt;A &lt;a href=&quot;https://playnite.link/&quot;&gt;Playnite&lt;/a&gt; extension providing a reorderable queue of games.&lt;/p&gt;
+&lt;p&gt;A simple drag&#39;n&#39;drop interface in .Net WPF using &lt;a href=&quot;https://github.com/punker76/gong-wpf-dragdrop&quot;&gt;GongSolutions.WPF.DragDrop&lt;/a&gt;.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Inject Steam GameOverlayRenderer DLL with Frida</title>
+    <link href="https://bburky.com/#inject-steam-game-overlay-renderer-dll-into-a-game-with-frida" />
+    <updated>2021-08-16T00:00:00Z</updated>
+    <id>https://bburky.com/#inject-steam-game-overlay-renderer-dll-into-a-game-with-frida</id>
+    <content type="html">&lt;p&gt;Inspired by:&lt;br&gt;
+&lt;a href=&quot;https://gist.github.com/Andon13/d439d5334d8173e5b959f383f1c49b03&quot;&gt;https://gist.github.com/Andon13/d439d5334d8173e5b959f383f1c49b03&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Must be run during process initialization, cannot be run after the game is
+started.&lt;/p&gt;
+&lt;p&gt;GameOverlayRenderer will use an appid from the SteamGameId environment
+variable. This is injected too. GameOverlayRenderer does not support
+&lt;code&gt;steam_appid.txt&lt;/code&gt;, but this script will parse the file to discover the appid.&lt;/p&gt;
+&lt;p&gt;Usage:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;cd the&#92;game&#92;directory
+frida -f &amp;quot;game.exe&amp;quot; -l C:&#92;somewhere&#92;GameOverlayRenderer.js --no-pause
+&lt;/code&gt;&lt;/pre&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Proof of concept SECCOMP_RET_USER_NOTIF based Frida Syscall Tracer</title>
+    <link href="https://bburky.com/#seccomp-ret-user-notif-based-frida-syscall-tracer" />
+    <updated>2021-06-26T00:00:00Z</updated>
+    <id>https://bburky.com/#seccomp-ret-user-notif-based-frida-syscall-tracer</id>
+    <content type="html">&lt;p&gt;A hacked up version of &lt;a href=&quot;https://man7.org/tlpi/code/online/dist/seccomp/seccomp_user_notification.c.html&quot;&gt;&lt;code&gt;seccomp/seccomp_user_notification.c&lt;/code&gt;&lt;/a&gt; running inside &lt;a href=&quot;https://frida.re/&quot;&gt;Frida&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;installFilter()&lt;/code&gt; should be called on the main thread of the application. It&#39;s not possible to install the seccomp filter from &lt;code&gt;rpc.exports.init()&lt;/code&gt; because it runs on a Frida thread.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;installFilter()&lt;/code&gt; sets NO_NEW_PRIVS (required if non-root), installs the seccomp filter to trigger notifications, then creates a pthread to watch for notifications. Upon notifications a callback into Frida is invoked.&lt;/p&gt;
+&lt;p&gt;When the callback fires, it won&#39;t be on the thread that invoked the syscall. I&#39;m not actually sure how to use Frida interact with the suspended thread. Untested, but &lt;a href=&quot;https://github.com/frida/frida-gum/pull/559&quot;&gt;frida/frida-gum#559&lt;/a&gt; may allow running code on the thread.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Buildah/Podman chroot isolation: environment value leakage to intermediate processes</title>
+    <link href="https://bburky.com/#buildah-GHSA-7638-r9r3-rmjj" />
+    <updated>2021-06-15T00:00:00Z</updated>
+    <id>https://bburky.com/#buildah-GHSA-7638-r9r3-rmjj</id>
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;When running processes using &amp;quot;chroot&amp;quot; isolation, the process being run can examine the environment variables of its immediate parent and grandparent processes (CVE-2021-3602). This isolation type is often used when running buildah in unprivileged containers, and it is often used to do so in CI/CD environments. If sensitive information is exposed to the original buildah process through its environment, that information will unintentionally be shared with child processes which it starts as part of handling RUN instructions or during buildah run. The commands that buildah is instructed to run can read that information if they choose to.&lt;/p&gt;
+&lt;/blockquote&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Offline Kubernetes manifest diff (does not use cluster state)</title>
+    <link href="https://bburky.com/#offline-kubernetes-manifest-diff-does-not-use-cluster-state" />
+    <updated>2021-05-21T00:00:00Z</updated>
+    <id>https://bburky.com/#offline-kubernetes-manifest-diff-does-not-use-cluster-state</id>
+    <content type="html">&lt;p&gt;Offline &lt;code&gt;kubectl diff&lt;/code&gt; style tool (does not use cluster state). Diff two local files containing templated manifests (e.g. kustomize or helm output).&lt;/p&gt;
+&lt;p&gt;Resources in each file are matched by api, kind, namespace and name. This is also shown in the filename fields of the diff output.&lt;/p&gt;
+&lt;p&gt;Usage:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;k8s-diff.py old-manifests.yaml new-manifests.yaml
+kustomize build . | k8s-diff.py /tmp/old-manifests.yaml -
+&lt;/code&gt;&lt;/pre&gt;
+</content>
+  </entry>
+  <entry>
+    <title>EPUB full text search using SQLite FTS5</title>
+    <link href="https://bburky.com/#epub-full-text-search-using-sq-lite-fts-5" />
+    <updated>2021-05-17T00:00:00Z</updated>
+    <id>https://bburky.com/#epub-full-text-search-using-sq-lite-fts-5</id>
+    <content type="html">&lt;p&gt;Do you ever look at the huge feature set of SQLite and try to see how many things you can use at the same time?&lt;/p&gt;
+&lt;p&gt;FTS5 + fsdir + zipfile + JOIN multiple table-valued functions = EPUB full text search&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Function hooking example using avr-gdb&#39;s built-in simulator and Python</title>
+    <link href="https://bburky.com/#avr-gdb-python-script-to-get-flag-from-a-debug-build-of-https-blog-wokwi-com-capture-the-flag-shitty-add-on" />
+    <updated>2021-02-15T00:00:00Z</updated>
+    <id>https://bburky.com/#avr-gdb-python-script-to-get-flag-from-a-debug-build-of-https-blog-wokwi-com-capture-the-flag-shitty-add-on</id>
+    <content type="html">&lt;p&gt;A simple example using &lt;code&gt;avr-gdb&lt;/code&gt;&#39;s built in &lt;code&gt;target sim&lt;/code&gt; AVR simulator on a &lt;code&gt;.hex&lt;/code&gt; file.&lt;/p&gt;
+&lt;p&gt;GDB&#39;s Python support can be used to mock functions by modifying process state and calling &lt;code&gt;ret&lt;/code&gt; to skip their execution.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>ESPHome IR→BLE Keyboard</title>
+    <link href="https://bburky.com/#esphome-irkeyboard" />
+    <updated>2021-01-31T00:00:00Z</updated>
+    <id>https://bburky.com/#esphome-irkeyboard</id>
+    <content type="html">&lt;p&gt;An &lt;a href=&quot;https://esphome.io/&quot;&gt;ESPHome&lt;/a&gt; custom component to receive IR codes with &lt;a href=&quot;https://esphome.io/components/remote_receiver.html&quot;&gt;&lt;code&gt;remote_receiver&lt;/code&gt;&lt;/a&gt; and convert them into BLE HID keystrokes. Uses a &lt;code&gt;Esp32BLEKeyboard&lt;/code&gt; custom component and the &lt;a href=&quot;https://github.com/T-vK/ESP32-BLE-Keyboard&quot;&gt;ESP32 BLE Keyboard library&lt;/a&gt;.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Python WinRT Image Capture (and Focus Stacking)</title>
+    <link href="https://bburky.com/#python-win-rt-image-capture-and-focus-stacking" />
+    <updated>2020-05-03T00:00:00Z</updated>
+    <id>https://bburky.com/#python-win-rt-image-capture-and-focus-stacking</id>
+    <content type="html">&lt;p&gt;&lt;a href=&quot;https://pypi.org/project/winrt/&quot;&gt;Python/WinRT&lt;/a&gt; is a crazy thing:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The Windows Runtime Python Projection (Python/WinRT) enables Python developers to access Windows Runtime APIs directly from Python in a natural and familiar way.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Use some native WinRT APIs via Python to capture photos with variable focus. Then use &lt;a href=&quot;http://hugin.sourceforge.net/docs/manual/Align_image_stack.html&quot;&gt;align_image_stack&lt;/a&gt; and &lt;a href=&quot;http://enblend.sourceforge.net/&quot;&gt;enblend&lt;/a&gt; from the &lt;a href=&quot;http://hugin.sourceforge.net/&quot;&gt;Hugin&lt;/a&gt; panorama tools to focus stack the images.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Capture The Flag Shitty Add-On Writeup</title>
+    <link href="https://bburky.com/#shitty-addon" />
+    <updated>2019-11-30T00:00:00Z</updated>
+    <id>https://bburky.com/#shitty-addon</id>
+    <content type="html">&lt;p&gt;An I²C AVR ATtiny85 CTF writeup.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://bburky.com/ctf-shittyaddon-writeup/&quot;&gt;CTF writeup&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.wokwi.com/capture-the-flag-shitty-add-on/&quot;&gt;CTF challenge description&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/urish/ctf-shittyaddon/blob/master/ctf-firmware/ctf-firmware.ino&quot;&gt;Exploited source code&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I²C, AVR assembly (with IPython magic for shellcode development), flash self-programming, and blinking LEDs.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>PlaidCTF 2019: A Whaley Good Joke writeup</title>
+    <link href="https://bburky.com/#a-whaley-good-joke" />
+    <updated>2019-04-14T00:00:00Z</updated>
+    <id>https://bburky.com/#a-whaley-good-joke</id>
+    <content type="html">&lt;p&gt;The challenge was to fix a broken Docker tar archive, with an unknown order of layers.&lt;/p&gt;
+&lt;p&gt;A file isn&#39;t deleted from a layer unless it was already created by a previous layer, this makes it possible to solve a dependency tree of the layers (this is what most solutions to this challenge did).&lt;/p&gt;
+&lt;p&gt;However, a much simpler solution is possible: sort the docker tar layers by mtime timestamp. The files created in the docker tar layers have different timestamps, accurate to one second.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Find the newest timestamp in each layer&lt;/li&gt;
+&lt;li&gt;Sort layers by their newest timestamp&lt;/li&gt;
+&lt;li&gt;Reconstruct the container image tarball with this layer order&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://ctftime.org/writeup/25656&quot;&gt;CTF writeup&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://gist.github.com/bburky/58edd7ce00cd4405429269695568fe2c&quot;&gt;Solution source code&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
+  <entry>
+    <title>DIY NAS / Router</title>
+    <link href="https://bburky.com/#nas" />
+    <updated>2018-09-16T00:00:00Z</updated>
+    <id>https://bburky.com/#nas</id>
+    <content type="html">&lt;p&gt;A 2-bay, low power, ARM-based NAS and router.&lt;/p&gt;
+&lt;p&gt;A custom NAS built inside a hot-swap HDD enclosure, with an acrylic side panel, using a Banana Pi BPI-R2.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://bburky.com/NAS/&quot;&gt;https://bburky.com/NAS/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://hackaday.com/2018/09/18/arm-based-nas-is-a-low-cost-low-power-beauty/&quot;&gt;hackaday&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.reddit.com/r/homelab/comments/9g1y5w/diy_nas_and_a_tiny_homelab/&quot;&gt;Reddit&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Multitouch Calligraphy (Code Golf)</title>
+    <link href="https://bburky.com/#multitouch-calligraphy" />
+    <updated>2018-01-23T00:00:00Z</updated>
+    <id>https://bburky.com/#multitouch-calligraphy</id>
+    <content type="html">&lt;p&gt;Use a multitouch touchscreen device and &lt;a href=&quot;https://bburky.com/MultitouchCalligraphy/&quot;&gt;try the demo&lt;/a&gt;. A larger tablet sized device is suggested, but a phone works.&lt;/p&gt;
+&lt;p&gt;Touch two fingers to the screen and drag them to draw a calligraphic pen stroke.&lt;/p&gt;
+&lt;p&gt;Code golfed down to 208 bytes.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://bburky.com/MultitouchCalligraphy/&quot;&gt;Demo&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/bburky/MultitouchCalligraphy/blob/master/index.html&quot;&gt;Source code&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;&lt;a href=&quot;https://xem.github.io/miniCodeEditor/&quot;&gt;MiniCodeEditor&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;I also participated in golfing a few bytes out of &lt;a href=&quot;https://twitter.com/MaximeEuziere&quot;&gt;@xem&lt;/a&gt;&#39;s &lt;a href=&quot;https://xem.github.io/miniCodeEditor/&quot;&gt;MiniCodeEditor&lt;/a&gt; by using &lt;code&gt;&amp;lt;iframe srcdoc=&amp;quot;...&amp;quot;&amp;gt;&lt;/code&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;An online HTML/CSS/JS playground in 62 &amp;amp; 142 bytes&lt;/h2&gt;&lt;/p&gt;
+&lt;p&gt;Inspired by &lt;a href=&quot;//codepen.io&quot;&gt;Codepen&lt;/a&gt;, &lt;a href=&quot;//jsfiddle.net&quot;&gt;JSFiddle&lt;/a&gt;, &lt;a href=&quot;//jsbin.com&quot;&gt;JSbin&lt;/a&gt; and &lt;a href=&quot;//dabblet.com/&quot;&gt;dabblet&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;golfed by &lt;a href=//twitter.com/MaximeEuziere&gt;xem&lt;/a&gt;, &lt;a href=//twitter.com/p01&gt;p01&lt;/a&gt;&lt;/a&gt;, &lt;a href=//twitter.com/subzey&gt;subzey&lt;/a&gt;, &lt;a href=//twitter.com/aemkei&gt;aemkei&lt;/a&gt;, &lt;a href=&quot;https://twitter.com/LauckAndLoad&quot;&gt;rlauck&lt;/a&gt;, &lt;a href=&quot;https://twitter.com/bburky&quot;&gt;bburky&lt;/a&gt;, &lt;a href=&quot;https://twitter.com/mmastrac&quot;&gt;mmastrac&lt;/a&gt; and &lt;a href=&quot;https://twitter.com/justecorruptio&quot;&gt;justecorruptio&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Subreddit Gender Ratios</title>
+    <link href="https://bburky.com/#subreddit-gender-ratios" />
+    <updated>2017-12-31T00:00:00Z</updated>
+    <id>https://bburky.com/#subreddit-gender-ratios</id>
+    <content type="html">&lt;p&gt;Estimate subreddit gender ratios by using a &amp;quot;random&amp;quot; (not great) sample of users with gender identified from Reddit flair.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://bburky.com/subredditgenderratios/&quot;&gt;Interactive data&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://nbviewer.jupyter.org/github/bburky/subredditgenderratios/blob/master/Subreddit%20Gender%20Ratios.ipynb&quot;&gt;IPython notebook&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Google BigQuery, D3.js, Reddit API&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Mathematica CTF Writeups</title>
+    <link href="https://bburky.com/#mathematica" />
+    <updated>2016-08-30T00:00:00Z</updated>
+    <id>https://bburky.com/#mathematica</id>
+    <content type="html">&lt;p&gt;Writeups for multiple cryptography and stenography CTF challenges solved with Mathematica.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Google CTF 2016: Little Bobby Application writeup</title>
+    <link href="https://bburky.com/#google-ctf-2016-little-bobby-application" />
+    <updated>2016-05-01T00:00:00Z</updated>
+    <id>https://bburky.com/#google-ctf-2016-little-bobby-application</id>
+    <content type="html">&lt;p&gt;Android blind SQLi by sending Intents and a BroadcastReceiver.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://ctftime.org/writeup/20492&quot;&gt;CTF Writeup&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://gist.github.com/9af1f82c8c1bb5dfb60624bef7762825&quot;&gt;Solution source code&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Mercurial arbitrary code execution</title>
+    <link href="https://bburky.com/#mercurial" />
+    <updated>2016-03-29T00:00:00Z</updated>
+    <id>https://bburky.com/#mercurial</id>
+    <content type="html">&lt;h2&gt;CVE-2016-3105 Arbitrary code execution when converting Git repos&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.mercurial-scm.org/wiki/WhatsNew/Archive#Mercurial_3.8_.2F_3.8.1_.282016-5-1.29&quot;&gt;Mercurial 3.8.1&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Mercurial prior to 3.8 allowed arbitrary code execution when using the convert extension on Git repos with hostile names. This could affect automated code conversion services that allow arbitrary repository names. This is a further side-effect of Git CVE-2015-7545. Reported and fixed by Blake Burkhart.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.mercurial-scm.org/repo/hg/rev/a56296f55a5e&quot;&gt;convert: pass absolute paths to git (SEC)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;CVE-2016-3068 Arbitrary code execution with Git subrepos&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.mercurial-scm.org/wiki/WhatsNew/Archive#Mercurial_3.7.3_.282016-3-29.29&quot;&gt;Mercurial 3.7.3&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Mercurial prior to 3.7.3 allowed URLs for Git subrepos that could result in arbitrary code execution on clone. This is a further side-effect of Git CVE-2015-7545. Reported by Blake Burkhart.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.mercurial-scm.org/repo/hg/rev/34d43cb85de8&quot;&gt;subrepo: set GIT_ALLOW_PROTOCOL to limit git clone protocols (SEC)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;CVE-2016-3069 Arbitrary code execution when converting Git repos&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.mercurial-scm.org/wiki/WhatsNew/Archive#Mercurial_3.7.3_.282016-3-29.29&quot;&gt;Mercurial 3.7.3&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Mercurial prior to 3.7.3 allowed arbitrary code execution when converting Git repos with hostile names. This could affect automated conversion services. Reported by Blake Burkhart.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.mercurial-scm.org/repo/hg/rev/197eed39e3d5&quot;&gt;convert: add new, non-clowny interface for shelling out to git (SEC)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.mercurial-scm.org/repo/hg/rev/cdda7b96afff&quot;&gt;convert: rewrite calls to Git to use the new shelling mechanism (SEC)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.mercurial-scm.org/repo/hg/rev/b732e7f2aba4&quot;&gt;convert: dead code removal - old git calling functions (SEC)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.mercurial-scm.org/repo/hg/rev/80cac1de6aea&quot;&gt;convert: rewrite gitpipe to use common.commandline (SEC)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.mercurial-scm.org/repo/hg/rev/ae279d4a19e9&quot;&gt;convert: test for shell injection in git calls (SEC)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Mercurial remote code execution in GitHub Importer</title>
+    <link href="https://bburky.com/#github-importer" />
+    <updated>2016-03-21T00:00:00Z</updated>
+    <id>https://bburky.com/#github-importer</id>
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/bburky&quot;&gt;@bburky&lt;/a&gt; reported a remote code execution vulnerability in Mercurial that could be triggered during repository imports using GitHub Importer.&lt;/p&gt;
+&lt;/blockquote&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Git remote code execution via submodules and git-remote-ext</title>
+    <link href="https://bburky.com/#git-remote-ext" />
+    <updated>2015-09-28T00:00:00Z</updated>
+    <id>https://bburky.com/#git-remote-ext</id>
+    <content type="html">&lt;p&gt;Git allows shell commands to be specified in &lt;code&gt;ext&lt;/code&gt; URLs for remote repositories. For example, &lt;code&gt;git clone &#39;ext::sh -c whoami% &amp;gt;&amp;amp;2&#39;&lt;/code&gt; will execute the &lt;code&gt;whoami&lt;/code&gt; command to try to connect to a remote repository. To protect users from accidentally trying to clone a malicious URL, Git submodule URLs were restricted to a safe set of protocols in &lt;a href=&quot;https://github.com/git/git/blob/90f7b16b3adc78d4bbabbd426fb69aa78c714f71/Documentation/RelNotes/2.6.1.txt#L13-L18&quot;&gt;Git v2.6.1&lt;/a&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Some protocols (like git-remote-ext) can execute arbitrary code
+found in the URL.  The URLs that submodules use may come from
+arbitrary sources (e.g., .gitmodules files in a remote
+repository), and can hurt those who blindly enable recursive
+fetch.  Restrict the allowed protocols to well known and safe
+ones.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;&lt;a href=&quot;https://nvd.nist.gov/vuln/detail/CVE-2015-7545&quot;&gt;CVE-2015-7545&lt;/a&gt;&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The (1) git-remote-ext and (2) unspecified other remote helper programs in Git before 2.3.10, 2.4.x before 2.4.10, 2.5.x before 2.5.4, and 2.6.x before 2.6.1 do not properly restrict the allowed protocols, which might allow remote attackers to execute arbitrary code via a URL in a (a) .gitmodules file or (b) unknown other sources in a submodule.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;Fix&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/git/git/commit/a5adaced2e13c135d5d9cc65be9eb95aa3bacedf&quot;&gt;transport: add a protocol-whitelist environment variable&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/git/git/commit/33cfccbbf35a56e190b79bdec5c85457c952a021&quot;&gt;submodule: allow only certain protocols for submodule fetches&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/git/git/commit/5088d3b38775f8ac12d7f77636775b16059b67ef&quot;&gt;transport: refactor protocol whitelist code&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/git/git/commit/f4113cac0c88b4f36ee6f3abf3218034440a68e3&quot;&gt;http: limit redirection to protocol-whitelist&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/git/git/commit/b258116462399b318c86165c61a5c7123043cfd4&quot;&gt;http: limit redirection depth&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;git-submodule&lt;/code&gt; was restricted to a safe to set of submodules by default: &lt;code&gt;GIT_ALLOW_PROTOCOL=file:git:http:https:ssh&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Additionally, inside git&#39;s &lt;code&gt;http.c&lt;/code&gt;, libcurl was restricted to the same protocol whitelist. Libcurl&#39;s recusion depth was also limited to prevent a redirect loop from causing git to hang.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Core fonts for the Web web fonts</title>
+    <link href="https://bburky.com/#core-fonts-for-the-web-web-fonts" />
+    <updated>2014-05-06T00:00:00Z</updated>
+    <id>https://bburky.com/#core-fonts-for-the-web-web-fonts</id>
+    <content type="html">&lt;p&gt;The Microsoft &lt;a href=&quot;https://en.wikipedia.org/wiki/Core_fonts_for_the_Web&quot;&gt;Core fonts for the Web&lt;/a&gt; included Andale Mono, Arial, Arial Black, Comic Sans MS, Courier New, Georgia, Impact, Times New Roman, Trebuchet MS, Verdana and Webdings as TrueType fonts. Though Microsoft no longer distributes these fonts, the old versions may still be redistributed freely. However, the &lt;a href=&quot;http://www.microsoft.com/typography/fontpack/eula.htm&quot;&gt;EULA&lt;/a&gt; specifies that the fonts may not be modified in any way.&lt;/p&gt;
+&lt;p&gt;But wouldn&#39;t it be fun to use them as &lt;code&gt;@font-face&lt;/code&gt; web fonts? But sadly the original, redistributable, format is only either &lt;code&gt;.exe&lt;/code&gt; or &lt;code&gt;.sit.hqx&lt;/code&gt; files...&lt;/p&gt;
+&lt;p&gt;With sufficient usage of JavaScript, random HTML5 features (&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/Blob&quot;&gt;blob&lt;/a&gt; URLs in dynamically generated stylesheet rules) and &lt;a href=&quot;http://emscripten.org&quot;&gt;emscripten&lt;/a&gt;-compiled &lt;a href=&quot;http://www.cabextract.org.uk/&quot;&gt;cabextract&lt;/a&gt;, anything is possible.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/bburky/Core-fonts-for-the-Web-web-fonts&quot;&gt;Source code&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://bburky.com/Core-fonts-for-the-Web-web-fonts/demo.html&quot;&gt;Demo&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Block to Block Game</title>
+    <link href="https://bburky.com/#block-to-block" />
+    <updated>2014-05-01T00:00:00Z</updated>
+    <id>https://bburky.com/#block-to-block</id>
+    <content type="html">&lt;p&gt;An HTML5 sliding block puzzle game&lt;/p&gt;
+&lt;p&gt;Originally written framework-less using the &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D&quot;&gt;JavaScript Canvas 2D API&lt;/a&gt; directly. Rewritten in late 2017 to learn the &lt;a href=&quot;http://phaser.io/&quot;&gt;Phaser&lt;/a&gt; game framework.&lt;/p&gt;
+&lt;p&gt;The original version supported both keyboard and multitouch input. The Phaser rewrite only supports keyboard input.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://bburky.com/blocktoblock/&quot;&gt;Play game&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/bburky/blocktoblock&quot;&gt;Source code&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://bburky.com/blocktoblock/original/&quot;&gt;Play original game&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/bburky/blocktoblock/tree/original&quot;&gt;Original source code&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
+</feed>

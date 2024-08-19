@@ -7,6 +7,7 @@
     <title>bburky</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
+    <link rel="alternate" type="application/atom+xml" title="RSS Feed for bburky.com" href="feed.xml" >
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💣</text></svg>">
   </head>
   <body>
@@ -19,7 +20,7 @@
       <label class="nav" for="nav-cve">CVEs</label>
       <input class="nav" type="radio" id="nav-ctf" name="nav" value="ctf">
       <label class="nav" for="nav-ctf">CTFs</label>
-      <a href="#" id="feed">Feed</a>
+      <a href="feed.xml" id="feed">Feed</a>
 
     <header class="paper-85x11">
     <pre>
@@ -46,11 +47,40 @@ NOTE:<span class="note">A creative hacker who reads entirely too many RFCs.</spa
 
 END:<span class="field">VCARD</span>
     </pre>
-  </header>
-
-      <article
+  </header><article
+      id="missing-cross-repository-blob-mount-authorization-check"
+      class="notecard-4x6 entries cve">
+        <header><ul class="cve-header"><li><a href="https://github.com/project-zot/zot/security/advisories/GHSA-55r9-5mx9-qq7r">CVE-2024-39897</a></li>
+            
+          </ul><h1>Missing authorization check on cross repository blob mount in multiple open source container registries</h1></header>
+          <section><p>The <a href="https://github.com/opencontainers/distribution-spec/blob/main/spec.md#mounting-a-blob-from-another-repository"><code>POST /v2/&lt;name&gt;/blobs/uploads/?mount=&lt;digest&gt;&amp;from=&lt;other_name&gt;</code> cross repository blob mount Docker registry HTTP v2 API endpoint</a> is unique in that it requires and access control check on two container names. Many new registry implementations have accidentally omitted this second access control check.</p>
+<h2><a href="https://github.com/project-zot/zot/security/advisories/GHSA-55r9-5mx9-qq7r">Zot CVE-2024-39897</a></h2>
+<blockquote>
+<p>Cache driver GetBlob() allows read access to any blob without access control check.</p>
+</blockquote>
+<h2><a href="https://github.com/go-gitea/gitea/releases/tag/v1.20.0">Gitea</a></h2>
+<p>Fixed in <a href="https://github.com/go-gitea/gitea/releases/tag/v1.20.0">v1.20.0</a>. <a href="https://github.com/go-gitea/gitea/pull/22759">PR #22759</a> created 1 day after reporting, but unmerged for 5 months. No CVE issued.</p>
+<h2>And more...</h2>
+<p>At least one more reported but unfixed instance in another open source registry, and even more instances in smaller registries that I haven't yet reported.</p>
+</section>
+      </article><article
+      id="terraform-aws-github-runner-GHSA-w423-qwm2-w2jq"
       class="notecard-6x4 entries cve external">
-        <header><ul class="cve-header"><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2023-34091">CVE-2023-34091</a></li>
+        <header><ul class="cve-header"><li><a href="https://github.com/philips-labs/terraform-aws-github-runner/security/advisories/GHSA-w423-qwm2-w2jq">GHSA-w423-qwm2-w2jq</a></li>
+            
+          </ul><h1><a href="https://github.com/philips-labs/terraform-aws-github-runner/security/advisories/GHSA-w423-qwm2-w2jq">Overly permissive IAM policy in philips-labs/terraform-aws-github-runner</a></h1></header>
+          <section><p>Overly permissive AWS IAM policy allowed runner EC2 instances to read sensitive tokens for other instances from SSM SecureStrings.</p>
+<p>Runner EC2 instances could read other instances' tokens (jitconfig and registration tokens) from SSM parameters. A runner's jitconfig is normally scoped down to a single repo, workflow and job. Stealing another runner's jitconfig allows lateral movement throughout the GitHub organization or repository and exposes the other runner's GITHUB_TOKEN, GitHub OIDC JWT ID token and any secrets.</p>
+<p>Submitted patch with ResourceTag based IAM policy checking <code>ec2:SourceInstanceARN</code> and added tags to SSM parameters.</p>
+<ul>
+<li><a href="https://github.com/philips-labs/terraform-aws-github-runner/security/advisories/GHSA-w423-qwm2-w2jq">Vulnerability advisory</a> (No CVE issued)</li>
+<li><a href="https://github.com/philips-labs/terraform-aws-github-runner/commit/9399cf29bec963dfa305f367f37c098a76130371">Patch with ResourceTag based IAM policy</a></li>
+</ul>
+</section>
+      </article><article
+      id="kyverno-deletiontimestamp"
+      class="notecard-4x6 entries cve external">
+        <header><ul class="cve-header"><li><a href="https://github.com/kyverno/kyverno/security/advisories/GHSA-hq4m-4948-64cc">CVE-2023-34091</a></li>
             
           </ul><h1><a href="https://medium.com/defense-unicorns/kyverno-cve-2023-34091-bypassing-policies-using-kubernetes-finalizers-14e51843016e">Kyverno policy bypass using Kubernetes finalizers</a></h1></header>
           <section><p>Discovered that in versions of Kyverno prior to 1.10.0, Kyverno does not enforce policies on resources with a <code>deletionTimestamp</code>, which occurs during finalization after resource deletion begins. This allows a bypass of &quot;validate, generate, or mutate-existing policies, even in cases where the validationFailureAction field is set to Enforce.&quot;</p>
@@ -61,17 +91,15 @@ END:<span class="field">VCARD</span>
 <li><a href="https://github.com/kyverno/kyverno/security/advisories/GHSA-hq4m-4948-64cc">Kyverno security advisory</a></li>
 </ul>
 </section>
-      </article>
-
-      <article
+      </article><article
+      id="playnite-playlist"
       class="notecard-3x5 entries projects external">
         <header><h1><a href="https://github.com/bburky/playnite-playlist">Playlist Extension for Playnite</a></h1></header>
           <section><p>A <a href="https://playnite.link/">Playnite</a> extension providing a reorderable queue of games.</p>
 <p>A simple drag'n'drop interface in .Net WPF using <a href="https://github.com/punker76/gong-wpf-dragdrop">GongSolutions.WPF.DragDrop</a>.</p>
 </section>
-      </article>
-
-      <article
+      </article><article
+      id="inject-steam-game-overlay-renderer-dll-into-a-game-with-frida"
       class="notecard-6x4 entries external">
         <header><h1><a href="https://gist.github.com/9abb40556bba56e745a5e78e47797733">Inject Steam GameOverlayRenderer DLL with Frida</a></h1></header>
           <section><p>Inspired by:<br>
@@ -86,9 +114,8 @@ variable. This is injected too. GameOverlayRenderer does not support
 frida -f &quot;game.exe&quot; -l C:\somewhere\GameOverlayRenderer.js --no-pause
 </code></pre>
 </section>
-      </article>
-
-      <article
+      </article><article
+      id="seccomp-ret-user-notif-based-frida-syscall-tracer"
       class="notecard-6x4 entries external">
         <header><h1><a href="https://gist.github.com/cfa97a45e16fa0528f67dc9f31adc51e">Proof of concept SECCOMP_RET_USER_NOTIF based Frida Syscall Tracer</a></h1></header>
           <section><p>A hacked up version of <a href="https://man7.org/tlpi/code/online/dist/seccomp/seccomp_user_notification.c.html"><code>seccomp/seccomp_user_notification.c</code></a> running inside <a href="https://frida.re/">Frida</a>.</p>
@@ -96,20 +123,18 @@ frida -f &quot;game.exe&quot; -l C:\somewhere\GameOverlayRenderer.js --no-pause
 <p><code>installFilter()</code> sets NO_NEW_PRIVS (required if non-root), installs the seccomp filter to trigger notifications, then creates a pthread to watch for notifications. Upon notifications a callback into Frida is invoked.</p>
 <p>When the callback fires, it won't be on the thread that invoked the syscall. I'm not actually sure how to use Frida interact with the suspended thread. Untested, but <a href="https://github.com/frida/frida-gum/pull/559">frida/frida-gum#559</a> may allow running code on the thread.</p>
 </section>
-      </article>
-
-      <article
+      </article><article
+      id="buildah-GHSA-7638-r9r3-rmjj"
       class="notecard-4x6 entries cve external">
-        <header><ul class="cve-header"><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-3602">CVE-2021-3602</a></li>
+        <header><ul class="cve-header"><li><a href="https://github.com/containers/buildah/security/advisories/GHSA-7638-r9r3-rmjj">CVE-2021-3602</a></li>
             
           </ul><h1><a href="https://github.com/containers/buildah/security/advisories/GHSA-7638-r9r3-rmjj">Buildah/Podman chroot isolation: environment value leakage to intermediate processes</a></h1></header>
           <section><blockquote>
 <p>When running processes using &quot;chroot&quot; isolation, the process being run can examine the environment variables of its immediate parent and grandparent processes (CVE-2021-3602). This isolation type is often used when running buildah in unprivileged containers, and it is often used to do so in CI/CD environments. If sensitive information is exposed to the original buildah process through its environment, that information will unintentionally be shared with child processes which it starts as part of handling RUN instructions or during buildah run. The commands that buildah is instructed to run can read that information if they choose to.</p>
 </blockquote>
 </section>
-      </article>
-
-      <article
+      </article><article
+      id="offline-kubernetes-manifest-diff-does-not-use-cluster-state"
       class="notecard-6x4 entries external">
         <header><h1><a href="https://gist.github.com/2d281a681f41c1965e208883161169de">Offline Kubernetes manifest diff (does not use cluster state)</a></h1></header>
           <section><p>Offline <code>kubectl diff</code> style tool (does not use cluster state). Diff two local files containing templated manifests (e.g. kustomize or helm output).</p>
@@ -119,32 +144,28 @@ frida -f &quot;game.exe&quot; -l C:\somewhere\GameOverlayRenderer.js --no-pause
 kustomize build . | k8s-diff.py /tmp/old-manifests.yaml -
 </code></pre>
 </section>
-      </article>
-
-      <article
+      </article><article
+      id="epub-full-text-search-using-sq-lite-fts-5"
       class="notecard-5x3 entries external">
         <header><h1><a href="https://gist.github.com/ba90e1aa1451be20b1e046aa9efd8191">EPUB full text search using SQLite FTS5</a></h1></header>
           <section><p>Do you ever look at the huge feature set of SQLite and try to see how many things you can use at the same time?</p>
 <p>FTS5 + fsdir + zipfile + JOIN multiple table-valued functions = EPUB full text search</p>
 </section>
-      </article>
-
-      <article
+      </article><article
+      id="avr-gdb-python-script-to-get-flag-from-a-debug-build-of-https-blog-wokwi-com-capture-the-flag-shitty-add-on"
       class="notecard-5x3 entries external">
         <header><h1><a href="https://gist.github.com/4ff25b15164d93fb5d9fb89ab09af95b">Function hooking example using avr-gdb's built-in simulator and Python</a></h1></header>
           <section><p>A simple example using <code>avr-gdb</code>'s built in <code>target sim</code> AVR simulator on a <code>.hex</code> file.</p>
 <p>GDB's Python support can be used to mock functions by modifying process state and calling <code>ret</code> to skip their execution.</p>
 </section>
-      </article>
-
-      <article
+      </article><article
+      id="esphome-irkeyboard"
       class="notecard-3x3 entries external">
         <header><h1><a href="https://github.com/bburky/esphome-projects#irkeyboard">ESPHome IR→BLE Keyboard</a></h1></header>
           <section><p>An <a href="https://esphome.io/">ESPHome</a> custom component to receive IR codes with <a href="https://esphome.io/components/remote_receiver.html"><code>remote_receiver</code></a> and convert them into BLE HID keystrokes. Uses a <code>Esp32BLEKeyboard</code> custom component and the <a href="https://github.com/T-vK/ESP32-BLE-Keyboard">ESP32 BLE Keyboard library</a>.</p>
 </section>
-      </article>
-
-      <article
+      </article><article
+      id="python-win-rt-image-capture-and-focus-stacking"
       class="notecard-5x3 entries external">
         <header><h1><a href="https://nbviewer.org/gist/bburky/563457900bc566b0d261ff15847dadd6">Python WinRT Image Capture (and Focus Stacking)</a></h1></header>
           <section><p><a href="https://pypi.org/project/winrt/">Python/WinRT</a> is a crazy thing:</p>
@@ -153,9 +174,8 @@ kustomize build . | k8s-diff.py /tmp/old-manifests.yaml -
 </blockquote>
 <p>Use some native WinRT APIs via Python to capture photos with variable focus. Then use <a href="http://hugin.sourceforge.net/docs/manual/Align_image_stack.html">align_image_stack</a> and <a href="http://enblend.sourceforge.net/">enblend</a> from the <a href="http://hugin.sourceforge.net/">Hugin</a> panorama tools to focus stack the images.</p>
 </section>
-      </article>
-
-      <article
+      </article><article
+      id="shitty-addon"
       class="notecard-5x3 entries ctf external">
         <header><h1><a href="https://bburky.com/ctf-shittyaddon-writeup/">Capture The Flag Shitty Add-On Writeup</a></h1></header>
           <section><p>An I²C AVR ATtiny85 CTF writeup.</p>
@@ -166,9 +186,8 @@ kustomize build . | k8s-diff.py /tmp/old-manifests.yaml -
 </ul>
 <p>I²C, AVR assembly (with IPython magic for shellcode development), flash self-programming, and blinking LEDs.</p>
 </section>
-      </article>
-
-      <article
+      </article><article
+      id="a-whaley-good-joke"
       class="notecard-6x4 entries ctf external">
         <header><h1><a href="https://ctftime.org/writeup/25656">PlaidCTF 2019: A Whaley Good Joke writeup</a></h1></header>
           <section><p>The challenge was to fix a broken Docker tar archive, with an unknown order of layers.</p>
@@ -184,9 +203,8 @@ kustomize build . | k8s-diff.py /tmp/old-manifests.yaml -
 <li><a href="https://gist.github.com/bburky/58edd7ce00cd4405429269695568fe2c">Solution source code</a></li>
 </ul>
 </section>
-      </article>
-
-      <article
+      </article><article
+      id="nas"
       class="notecard-6x4 entries projects external">
         <header><h1><a href="https://bburky.com/NAS/">DIY NAS / Router</a></h1></header>
           <section><p>A 2-bay, low power, ARM-based NAS and router.</p>
@@ -197,9 +215,8 @@ kustomize build . | k8s-diff.py /tmp/old-manifests.yaml -
 <li><a href="https://www.reddit.com/r/homelab/comments/9g1y5w/diy_nas_and_a_tiny_homelab/">Reddit</a></li>
 </ul>
 </section>
-      </article>
-
-      <article
+      </article><article
+      id="multitouch-calligraphy"
       class="notecard-6x4 entries external">
         <header><h1><a href="https://bburky.com/MultitouchCalligraphy/">Multitouch Calligraphy (Code Golf)</a></h1></header>
           <section><p>Use a multitouch touchscreen device and <a href="https://bburky.com/MultitouchCalligraphy/">try the demo</a>. A larger tablet sized device is suggested, but a phone works.</p>
@@ -217,9 +234,8 @@ kustomize build . | k8s-diff.py /tmp/old-manifests.yaml -
 <p>golfed by <a href=//twitter.com/MaximeEuziere>xem</a>, <a href=//twitter.com/p01>p01</a></a>, <a href=//twitter.com/subzey>subzey</a>, <a href=//twitter.com/aemkei>aemkei</a>, <a href="https://twitter.com/LauckAndLoad">rlauck</a>, <a href="https://twitter.com/bburky">bburky</a>, <a href="https://twitter.com/mmastrac">mmastrac</a> and <a href="https://twitter.com/justecorruptio">justecorruptio</a></p>
 </blockquote>
 </section>
-      </article>
-
-      <article
+      </article><article
+      id="subreddit-gender-ratios"
       class="notecard-5x3 entries projects external">
         <header><h1><a href="https://bburky.com/subredditgenderratios/">Subreddit Gender Ratios</a></h1></header>
           <section><p>Estimate subreddit gender ratios by using a &quot;random&quot; (not great) sample of users with gender identified from Reddit flair.</p>
@@ -229,16 +245,14 @@ kustomize build . | k8s-diff.py /tmp/old-manifests.yaml -
 </ul>
 <p>Google BigQuery, D3.js, Reddit API</p>
 </section>
-      </article>
-
-      <article
+      </article><article
+      id="mathematica"
       class="notecard-3x3 entries ctf external">
         <header><h1><a href="https://github.com/bburky/mathematica-ctf-writeups">Mathematica CTF Writeups</a></h1></header>
           <section><p>Writeups for multiple cryptography and stenography CTF challenges solved with Mathematica.</p>
 </section>
-      </article>
-
-      <article
+      </article><article
+      id="google-ctf-2016-little-bobby-application"
       class="notecard-5x3 entries ctf external">
         <header><h1><a href="https://ctftime.org/writeup/20492">Google CTF 2016: Little Bobby Application writeup</a></h1></header>
           <section><p>Android blind SQLi by sending Intents and a BroadcastReceiver.</p>
@@ -247,9 +261,8 @@ kustomize build . | k8s-diff.py /tmp/old-manifests.yaml -
 <li><a href="https://gist.github.com/9af1f82c8c1bb5dfb60624bef7762825">Solution source code</a></li>
 </ul>
 </section>
-      </article>
-
-      <article
+      </article><article
+      id="mercurial"
       class="notecard-6x4 entries cve">
         <header><ul class="cve-header"><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2016-3105">CVE-2016-3105</a></li>
             <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2016-3068">CVE-2016-3068</a></li>
@@ -285,9 +298,8 @@ kustomize build . | k8s-diff.py /tmp/old-manifests.yaml -
 <li><a href="https://www.mercurial-scm.org/repo/hg/rev/ae279d4a19e9">convert: test for shell injection in git calls (SEC)</a></li>
 </ul>
 </section>
-      </article>
-
-      <article
+      </article><article
+      id="github-importer"
       class="notecard-5x3 entries bounty cve external">
         <header><ul class="cve-header"><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2016-3068">CVE-2016-3068</a></li>
             
@@ -296,9 +308,8 @@ kustomize build . | k8s-diff.py /tmp/old-manifests.yaml -
 <p><a href="https://github.com/bburky">@bburky</a> reported a remote code execution vulnerability in Mercurial that could be triggered during repository imports using GitHub Importer.</p>
 </blockquote>
 </section>
-      </article>
-
-      <article
+      </article><article
+      id="git-remote-ext"
       class="notecard-6x4 entries cve">
         <header><ul class="cve-header"><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2015-7545">CVE-2015-7545</a></li>
             
@@ -327,9 +338,8 @@ ones.</p>
 <p><code>git-submodule</code> was restricted to a safe to set of submodules by default: <code>GIT_ALLOW_PROTOCOL=file:git:http:https:ssh</code>.</p>
 <p>Additionally, inside git's <code>http.c</code>, libcurl was restricted to the same protocol whitelist. Libcurl's recusion depth was also limited to prevent a redirect loop from causing git to hang.</p>
 </section>
-      </article>
-
-      <article
+      </article><article
+      id="core-fonts-for-the-web-web-fonts"
       class="notecard-4x6 entries projects external">
         <header><h1><a href="https://github.com/bburky/Core-fonts-for-the-Web-web-fonts">Core fonts for the Web web fonts</a></h1></header>
           <section><p>The Microsoft <a href="https://en.wikipedia.org/wiki/Core_fonts_for_the_Web">Core fonts for the Web</a> included Andale Mono, Arial, Arial Black, Comic Sans MS, Courier New, Georgia, Impact, Times New Roman, Trebuchet MS, Verdana and Webdings as TrueType fonts. Though Microsoft no longer distributes these fonts, the old versions may still be redistributed freely. However, the <a href="http://www.microsoft.com/typography/fontpack/eula.htm">EULA</a> specifies that the fonts may not be modified in any way.</p>
@@ -340,9 +350,8 @@ ones.</p>
 <li><a href="http://bburky.com/Core-fonts-for-the-Web-web-fonts/demo.html">Demo</a></li>
 </ul>
 </section>
-      </article>
-
-      <article
+      </article><article
+      id="block-to-block"
       class="notecard-4x6 entries projects external">
         <header><h1><a href="https://bburky.com/blocktoblock/">Block to Block Game</a></h1></header>
           <section><p>An HTML5 sliding block puzzle game</p>
