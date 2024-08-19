@@ -3,9 +3,9 @@ title: Mercurial arbitrary code execution
 date: 2016-03-29
 # url: https://www.mercurial-scm.org/wiki/WhatsNew/Archive
 cve:
-  - CVE-2016-3105
-  - CVE-2016-3068
-  - CVE-2016-3069
+  CVE-2016-3105: https://nvd.nist.gov/vuln/detail/CVE-2016-3105
+  CVE-2016-3068: https://nvd.nist.gov/vuln/detail/CVE-2016-3068
+  CVE-2016-3069: https://nvd.nist.gov/vuln/detail/CVE-2016-3069
 # White bg
 # grey/blue
 tags: cve

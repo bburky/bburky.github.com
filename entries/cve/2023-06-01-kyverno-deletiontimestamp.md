@@ -3,14 +3,14 @@ title: "Kyverno policy bypass using Kubernetes finalizers"
 date: 2023-06-01
 url: https://medium.com/defense-unicorns/kyverno-cve-2023-34091-bypassing-policies-using-kubernetes-finalizers-14e51843016e
 cve:
-  - CVE-2023-34091
+  CVE-2023-34091: https://github.com/kyverno/kyverno/security/advisories/GHSA-hq4m-4948-64cc
 tags:
   - cve
 background: '#000'
 color: '#ddd'
 accentColor: '#999'
 icon: TODO
-class: notecard-6x4
+class: notecard-4x6
 ---
 Discovered that in versions of Kyverno prior to 1.10.0, Kyverno does not enforce policies on resources with a `deletionTimestamp`, which occurs during finalization after resource deletion begins. This allows a bypass of "validate, generate, or mutate-existing policies, even in cases where the validationFailureAction field is set to Enforce."
 

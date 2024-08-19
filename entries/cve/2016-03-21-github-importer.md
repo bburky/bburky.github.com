@@ -3,7 +3,7 @@ title: "Mercurial remote code execution in GitHub Importer"
 date: 2016-03-21
 url: https://bounty.github.com/researchers/bburky.html
 cve:
-  - CVE-2016-3068
+  CVE-2016-3068: https://nvd.nist.gov/vuln/detail/CVE-2016-3068
 tags:
   - bounty
   - cve
