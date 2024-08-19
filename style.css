@@ -28,6 +28,10 @@ article header {
     margin-bottom: 1em;
 }
 
+article:target {
+    background: #ffffbb;
+}
+
 .notecard-6x4 {
     max-width: 6in;
     min-height: 4in;
@@ -262,6 +266,7 @@ ul.cve-header li {
     display: inline;
     float: right;
     clear: right;
+    margin-left: 1em;
     padding: 0.25em 0.5em;
     margin-right: 0.25em;
     border-radius: 0.5em;
