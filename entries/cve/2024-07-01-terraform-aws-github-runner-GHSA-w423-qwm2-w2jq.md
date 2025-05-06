@@ -1,9 +1,9 @@
 ---
-title: "Overly permissive IAM policy in philips-labs/terraform-aws-github-runner" 
+title: "Overly permissive IAM policy in github-aws-runners/terraform-aws-github-runner" 
 date: 2024-07-01
-url: https://github.com/philips-labs/terraform-aws-github-runner/security/advisories/GHSA-w423-qwm2-w2jq
+url: https://github.com/github-aws-runners/terraform-aws-github-runner/security/advisories/GHSA-w423-qwm2-w2jq
 cve:
-  GHSA-w423-qwm2-w2jq: https://github.com/philips-labs/terraform-aws-github-runner/security/advisories/GHSA-w423-qwm2-w2jq
+  GHSA-w423-qwm2-w2jq: https://github.com/github-aws-runners/terraform-aws-github-runner/security/advisories/GHSA-w423-qwm2-w2jq
 class: notecard-6x4
 tags: cve
 ---
@@ -14,5 +14,5 @@ Runner EC2 instances could read other instances' tokens (jitconfig and registrat
 
 Submitted patch with ResourceTag based IAM policy checking `ec2:SourceInstanceARN` and added tags to SSM parameters.
 
-* [Vulnerability advisory](https://github.com/philips-labs/terraform-aws-github-runner/security/advisories/GHSA-w423-qwm2-w2jq) (No CVE issued)
-* [Patch with ResourceTag based IAM policy](https://github.com/philips-labs/terraform-aws-github-runner/commit/9399cf29bec963dfa305f367f37c098a76130371)
+* [Security advisory](https://github.com/github-aws-runners/terraform-aws-github-runner/security/advisories/GHSA-w423-qwm2-w2jq) (No CVE issued)
+* [Patch with ResourceTag based IAM policy](https://github.com/github-aws-runners/terraform-aws-github-runner/commit/9399cf29bec963dfa305f367f37c098a76130371)

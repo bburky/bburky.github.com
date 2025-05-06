@@ -5,7 +5,7 @@ url: https://github.com/containers/buildah/security/advisories/GHSA-7638-r9r3-rm
 cve:
   CVE-2021-3602: https://github.com/containers/buildah/security/advisories/GHSA-7638-r9r3-rmjj
 icon: TODO? red hat?
-class: notecard-4x6
+class: notecard-6x4
 tags: cve
 ---
 
