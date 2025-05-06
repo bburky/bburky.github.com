@@ -172,15 +172,24 @@ label.nav, #feed {
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
     color: white;
-    background: #555;
+    background: rgb(52, 81, 52);
     padding: 1em;
-    border-radius: 1em;
+    padding-left: 1.25em;
     display: block;
     text-align: left;
     position: absolute;
     width: 5in;
     /* minimum left margin is 1em, but will be overridden by the @media query below */
     left: 1em;
+    /* ragged left border */
+    mask: conic-gradient(from 45deg at left, #0000,#000 1deg 89deg,#da494900 90deg) left /51% 0.5em repeat-y;
+
+    /* animate on hover */
+    transition: transform 0.3s ease;
+}
+
+label.nav:hover, #feed:hover {
+    transform: translateX(1em);
 }
 
 #feed {
@@ -228,7 +237,7 @@ label.nav:nth-of-type(4) {
 }
 
 input.nav:checked + label {
-    background-color:#bfb;
+    background-color: #bfb;
     color: black;
 }
 
@@ -258,8 +267,8 @@ article header h2 a:before {
     text-decoration: none;
 }
 
-article header h2 a[href^="https://github.com/"]:before, 
-article header h2 a[href^="https://bounty.github.com/"]:before, 
+article header h2 a[href^="https://github.com/"]:before,
+article header h2 a[href^="https://bounty.github.com/"]:before,
 article header h2 a[href^="https://gist.github.com/"]:before {
     content: "\f09b";
     font-family: "Font Awesome 6 Brands";
