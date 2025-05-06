@@ -172,7 +172,7 @@ label.nav, #feed {
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
     color: white;
-    background: rgb(52, 81, 52);
+    background: #444;
     padding: 1em;
     padding-left: 1.25em;
     display: block;
@@ -186,6 +186,8 @@ label.nav, #feed {
 
     /* animate on hover */
     transition: transform 0.3s ease;
+
+    user-select: none;
 }
 
 label.nav:hover, #feed:hover {
@@ -194,7 +196,7 @@ label.nav:hover, #feed:hover {
 
 #feed {
     color: black;
-    background: rgb(220, 220, 220);
+    background: #dcdcdc;
     top: calc(1in + 16em);
     text-decoration: none;
 }
@@ -237,7 +239,7 @@ label.nav:nth-of-type(4) {
 }
 
 input.nav:checked + label {
-    background-color: #bfb;
+    background-color: #fff;
     color: black;
 }
 
