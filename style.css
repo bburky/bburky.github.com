@@ -1,6 +1,6 @@
 
 body {
-    background: #b5b5b5;;
+    background: #b5b5b5;
     text-align: center;
 
     /* Force scrollbar to avoid vw changes if it disappears */
@@ -90,7 +90,7 @@ header.paper-85x11 {
     min-height: 35em;
 
     /* Centering */
-    /* Note this will never go past the lenft edge, a negative margin does nothing. */
+    /* Note this will never go past the left edge, a negative margin does nothing. */
     margin: 0.25in calc(50vw - 4.25in) 0 auto;
     /* To make sure the nav below is visible, use a transparent border */
     border-left: 10em solid transparent;
@@ -99,10 +99,30 @@ header.paper-85x11 {
 }
 
 @media print {
+    label.nav, a#feed {
+        display: none !important;
+    }
+
+    header.paper-85x11 {
+        transform: unset;
+        border: thin solid black;
+        color: black !important;
+    }
+
     header.paper-85x11::after {
+        box-shadow: unset !important;
         background: unset !important;
     }
+
+    article {
+        break-inside: avoid;
+        display: block !important;
+        box-shadow: unset !important;
+        border: thin solid black;
+    }
+
     ul.cve-header li {
+        background: white !important;
         color: black !important;
         border: thin solid black;
     }
@@ -226,11 +246,11 @@ pre a:hover {
     text-decoration: underline;
 }
 
-article header h1 a {
+article header h2 a {
     padding-right: 1em;
 }
 
-article header h1 a:before {
+article header h2 a:before {
     margin-right: 0.25em;
     content: "\f08e";
     font-family: "Font Awesome 6 Free";
@@ -238,16 +258,16 @@ article header h1 a:before {
     text-decoration: none;
 }
 
-article header h1 a[href^="https://github.com/"]:before, 
-article header h1 a[href^="https://bounty.github.com/"]:before, 
-article header h1 a[href^="https://gist.github.com/"]:before {
+article header h2 a[href^="https://github.com/"]:before, 
+article header h2 a[href^="https://bounty.github.com/"]:before, 
+article header h2 a[href^="https://gist.github.com/"]:before {
     content: "\f09b";
     font-family: "Font Awesome 6 Brands";
     color: black;
 }
 
 article.ctf header a[href]:before,
-article header h1 a[href^="https://ctftime.org/"]:before {
+article header h2 a[href^="https://ctftime.org/"]:before {
     content: "\f024";
     font-family: "Font Awesome 6 Free";
     color: red;
@@ -256,7 +276,9 @@ article header h1 a[href^="https://ctftime.org/"]:before {
 ul.cve-header {
     margin: 0;
     padding: 0;
-    margin-right: -2.5em;
+    position: relative;
+    top: -0.6em;
+    margin-right: -2.25em;
 }
 
 ul.cve-header li {
@@ -266,14 +288,17 @@ ul.cve-header li {
     display: inline;
     float: right;
     clear: right;
+    margin-bottom: 0.5em;
     margin-left: 1em;
     padding: 0.25em 0.5em;
-    margin-right: 0.25em;
     border-radius: 0.5em;
-    margin-bottom: 0.5em;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 90%;
     font-weight: bold;
+}
+
+ul.cve-header li:last-of-type {
+    margin-bottom: 0.25em;
 }
 
 ul.cve-header li a {
