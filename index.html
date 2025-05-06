@@ -48,60 +48,78 @@ NOTE:<span class="note">A creative hacker who reads entirely too many RFCs.</spa
 END:<span class="field">VCARD</span>
     </pre>
   </header><article
+      id="minio-operator-audience"
+      class="notecard-6x4 entries cve external">
+        <header><ul class="cve-header"><li><a href="https://github.com/advisories/GHSA-7m6v-q233-q9j9">CVE-2025-32963</a></li>
+            
+          </ul><h2><a href="https://github.com/advisories/GHSA-7m6v-q233-q9j9">MinIO Operator used Kubernetes apiserver audience for AssumeRoleWithWebIdentity STS</a></h2></header>
+          <section><p>While reviewing MinIO Operator's <a href="https://min.io/docs/minio/kubernetes/upstream/developers/sts-for-operator.html">Kubernetes STS Authorization</a> feature (very similar to AWS's <a href="https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html">IRSA</a>), I discovered that it used <code>/var/run/secrets/kubernetes.io/serviceaccount/token</code> for authorization. If the Pod's ServiceAccount had any Kubernetes RBAC permissions, this token could be <a href="https://kubernetes.io/docs/tasks/run-application/access-api-from-pod/#directly-accessing-the-rest-api">used with the Kubernetes API</a> to perform privileged operations. Exposing this token to the MinIO Operator was a security issue.</p>
+<p>MinIO implemented my recommendation of instead using <a href="https://kubernetes.io/docs/concepts/storage/projected-volumes/#serviceaccounttoken">serviceAccountToken projected volumes</a> with a non-default audience. This ensures tokens are not valid against the Kubernetes apiserver and effectively drops privileges.</p>
+<ul>
+<li><a href="https://github.com/advisories/GHSA-7m6v-q233-q9j9">Security advisory</a></li>
+<li><a href="https://github.com/minio/operator/pull/2418">Patch</a></li>
+</ul>
+</section>
+      </article><article
       id="missing-cross-repository-blob-mount-authorization-check"
-      class="notecard-4x6 entries cve">
+      class="notecard-6x4 entries cve">
         <header><ul class="cve-header"><li><a href="https://github.com/project-zot/zot/security/advisories/GHSA-55r9-5mx9-qq7r">CVE-2024-39897</a></li>
             
-          </ul><h1>Missing authorization check on cross repository blob mount in multiple open source container registries</h1></header>
-          <section><p>The <a href="https://github.com/opencontainers/distribution-spec/blob/main/spec.md#mounting-a-blob-from-another-repository"><code>POST /v2/&lt;name&gt;/blobs/uploads/?mount=&lt;digest&gt;&amp;from=&lt;other_name&gt;</code> cross repository blob mount Docker registry HTTP v2 API endpoint</a> is unique in that it requires and access control check on two container names. Many new registry implementations have accidentally omitted this second access control check.</p>
+          </ul><h2>Missing authorization check on cross repository blob mount in multiple open source container registries</h2></header>
+          <section><p><a href="https://github.com/opencontainers/distribution-spec/blob/main/spec.md#mounting-a-blob-from-another-repository"><code>POST /v2/&lt;name&gt;/blobs/uploads/?mount=&lt;digest&gt;&amp;from=&lt;other_name&gt;</code> cross repository blob mount</a> is unique among the other Docker registry HTTP v2 API endpoints in that it requires an access control check on two container names. Many new registry implementations have accidentally omitted <code>pull</code> access control check on the source repository.</p>
 <h2><a href="https://github.com/project-zot/zot/security/advisories/GHSA-55r9-5mx9-qq7r">Zot CVE-2024-39897</a></h2>
 <blockquote>
-<p>Cache driver GetBlob() allows read access to any blob without access control check.</p>
+<p>Cache driver <code>GetBlob()</code> allows read access to any blob without access control check.</p>
 </blockquote>
 <h2><a href="https://github.com/go-gitea/gitea/releases/tag/v1.20.0">Gitea</a></h2>
 <p>Fixed in <a href="https://github.com/go-gitea/gitea/releases/tag/v1.20.0">v1.20.0</a>. <a href="https://github.com/go-gitea/gitea/pull/22759">PR #22759</a> created 1 day after reporting, but unmerged for 5 months. No CVE issued.</p>
-<h2>And more...</h2>
-<p>At least one more reported but unfixed instance in another open source registry, and even more instances in smaller registries that I haven't yet reported.</p>
 </section>
       </article><article
       id="terraform-aws-github-runner-GHSA-w423-qwm2-w2jq"
       class="notecard-6x4 entries cve external">
-        <header><ul class="cve-header"><li><a href="https://github.com/philips-labs/terraform-aws-github-runner/security/advisories/GHSA-w423-qwm2-w2jq">GHSA-w423-qwm2-w2jq</a></li>
+        <header><ul class="cve-header"><li><a href="https://github.com/github-aws-runners/terraform-aws-github-runner/security/advisories/GHSA-w423-qwm2-w2jq">GHSA-w423-qwm2-w2jq</a></li>
             
-          </ul><h1><a href="https://github.com/philips-labs/terraform-aws-github-runner/security/advisories/GHSA-w423-qwm2-w2jq">Overly permissive IAM policy in philips-labs/terraform-aws-github-runner</a></h1></header>
+          </ul><h2><a href="https://github.com/github-aws-runners/terraform-aws-github-runner/security/advisories/GHSA-w423-qwm2-w2jq">Overly permissive IAM policy in github-aws-runners/terraform-aws-github-runner</a></h2></header>
           <section><p>Overly permissive AWS IAM policy allowed runner EC2 instances to read sensitive tokens for other instances from SSM SecureStrings.</p>
 <p>Runner EC2 instances could read other instances' tokens (jitconfig and registration tokens) from SSM parameters. A runner's jitconfig is normally scoped down to a single repo, workflow and job. Stealing another runner's jitconfig allows lateral movement throughout the GitHub organization or repository and exposes the other runner's GITHUB_TOKEN, GitHub OIDC JWT ID token and any secrets.</p>
 <p>Submitted patch with ResourceTag based IAM policy checking <code>ec2:SourceInstanceARN</code> and added tags to SSM parameters.</p>
 <ul>
-<li><a href="https://github.com/philips-labs/terraform-aws-github-runner/security/advisories/GHSA-w423-qwm2-w2jq">Vulnerability advisory</a> (No CVE issued)</li>
-<li><a href="https://github.com/philips-labs/terraform-aws-github-runner/commit/9399cf29bec963dfa305f367f37c098a76130371">Patch with ResourceTag based IAM policy</a></li>
+<li><a href="https://github.com/github-aws-runners/terraform-aws-github-runner/security/advisories/GHSA-w423-qwm2-w2jq">Security advisory</a> (No CVE issued)</li>
+<li><a href="https://github.com/github-aws-runners/terraform-aws-github-runner/commit/9399cf29bec963dfa305f367f37c098a76130371">Patch with ResourceTag based IAM policy</a></li>
 </ul>
+</section>
+      </article><article
+      id="bsides-ctf"
+      class="notecard-3x3 entries ctf external">
+        <header><h2><a href="https://www.bsidessatx.com/about-2024.html">San Antonio BSides CTF 2024</a></h2></header>
+          <section><p>1st place in local BSides CTF.</p>
+<p>Small solo event with AI, crypto, binaries and web categories.</p>
 </section>
       </article><article
       id="kyverno-deletiontimestamp"
       class="notecard-4x6 entries cve external">
-        <header><ul class="cve-header"><li><a href="https://github.com/kyverno/kyverno/security/advisories/GHSA-hq4m-4948-64cc">CVE-2023-34091</a></li>
+        <header><ul class="cve-header"><li><a href="https://github.com/advisories/GHSA-hq4m-4948-64cc">CVE-2023-34091</a></li>
             
-          </ul><h1><a href="https://medium.com/defense-unicorns/kyverno-cve-2023-34091-bypassing-policies-using-kubernetes-finalizers-14e51843016e">Kyverno policy bypass using Kubernetes finalizers</a></h1></header>
-          <section><p>Discovered that in versions of Kyverno prior to 1.10.0, Kyverno does not enforce policies on resources with a <code>deletionTimestamp</code>, which occurs during finalization after resource deletion begins. This allows a bypass of &quot;validate, generate, or mutate-existing policies, even in cases where the validationFailureAction field is set to Enforce.&quot;</p>
+          </ul><h2><a href="https://medium.com/defense-unicorns/kyverno-cve-2023-34091-bypassing-policies-using-kubernetes-finalizers-14e51843016e">Kyverno policy bypass using Kubernetes finalizers</a></h2></header>
+          <section><p>I discovered that in versions of Kyverno prior to 1.10.0, Kyverno did not enforce policies on resources with a <code>deletionTimestamp</code>, which occurs during finalization after resource deletion begins. This allowed a bypass of &quot;validate, generate, or mutate-existing policies, even in cases where the validationFailureAction field is set to Enforce.&quot;</p>
 <p>Impact is low for most Kubernetes resources because most controllers ignore changes during finalization. However, a few built in resource kinds such as ConfigMaps, Secrets and Services may honor changes during deletion. Custom resources may also be affected.</p>
 <p>An attacker could first maliciously add a non-existent finalizer and begin deletion of a resource, then perform a malicious update of the resource bypassing Kyverno policies.</p>
 <ul>
 <li><a href="https://medium.com/defense-unicorns/kyverno-cve-2023-34091-bypassing-policies-using-kubernetes-finalizers-14e51843016e">Blog post, writeup, timeline</a></li>
-<li><a href="https://github.com/kyverno/kyverno/security/advisories/GHSA-hq4m-4948-64cc">Kyverno security advisory</a></li>
+<li><a href="https://github.com/advisories/GHSA-hq4m-4948-64cc">Kyverno security advisory</a></li>
 </ul>
 </section>
       </article><article
       id="playnite-playlist"
       class="notecard-3x5 entries projects external">
-        <header><h1><a href="https://github.com/bburky/playnite-playlist">Playlist Extension for Playnite</a></h1></header>
+        <header><h2><a href="https://github.com/bburky/playnite-playlist">Playlist Extension for Playnite</a></h2></header>
           <section><p>A <a href="https://playnite.link/">Playnite</a> extension providing a reorderable queue of games.</p>
 <p>A simple drag'n'drop interface in .Net WPF using <a href="https://github.com/punker76/gong-wpf-dragdrop">GongSolutions.WPF.DragDrop</a>.</p>
 </section>
       </article><article
       id="inject-steam-game-overlay-renderer-dll-into-a-game-with-frida"
       class="notecard-6x4 entries external">
-        <header><h1><a href="https://gist.github.com/9abb40556bba56e745a5e78e47797733">Inject Steam GameOverlayRenderer DLL with Frida</a></h1></header>
+        <header><h2><a href="https://gist.github.com/9abb40556bba56e745a5e78e47797733">Inject Steam GameOverlayRenderer DLL with Frida</a></h2></header>
           <section><p>Inspired by:<br>
 <a href="https://gist.github.com/Andon13/d439d5334d8173e5b959f383f1c49b03">https://gist.github.com/Andon13/d439d5334d8173e5b959f383f1c49b03</a></p>
 <p>Must be run during process initialization, cannot be run after the game is
@@ -117,7 +135,7 @@ frida -f &quot;game.exe&quot; -l C:\somewhere\GameOverlayRenderer.js --no-pause
       </article><article
       id="seccomp-ret-user-notif-based-frida-syscall-tracer"
       class="notecard-6x4 entries external">
-        <header><h1><a href="https://gist.github.com/cfa97a45e16fa0528f67dc9f31adc51e">Proof of concept SECCOMP_RET_USER_NOTIF based Frida Syscall Tracer</a></h1></header>
+        <header><h2><a href="https://gist.github.com/cfa97a45e16fa0528f67dc9f31adc51e">Proof of concept SECCOMP_RET_USER_NOTIF based Frida Syscall Tracer</a></h2></header>
           <section><p>A hacked up version of <a href="https://man7.org/tlpi/code/online/dist/seccomp/seccomp_user_notification.c.html"><code>seccomp/seccomp_user_notification.c</code></a> running inside <a href="https://frida.re/">Frida</a>.</p>
 <p><code>installFilter()</code> should be called on the main thread of the application. It's not possible to install the seccomp filter from <code>rpc.exports.init()</code> because it runs on a Frida thread.</p>
 <p><code>installFilter()</code> sets NO_NEW_PRIVS (required if non-root), installs the seccomp filter to trigger notifications, then creates a pthread to watch for notifications. Upon notifications a callback into Frida is invoked.</p>
@@ -125,10 +143,10 @@ frida -f &quot;game.exe&quot; -l C:\somewhere\GameOverlayRenderer.js --no-pause
 </section>
       </article><article
       id="buildah-GHSA-7638-r9r3-rmjj"
-      class="notecard-4x6 entries cve external">
+      class="notecard-6x4 entries cve external">
         <header><ul class="cve-header"><li><a href="https://github.com/containers/buildah/security/advisories/GHSA-7638-r9r3-rmjj">CVE-2021-3602</a></li>
             
-          </ul><h1><a href="https://github.com/containers/buildah/security/advisories/GHSA-7638-r9r3-rmjj">Buildah/Podman chroot isolation: environment value leakage to intermediate processes</a></h1></header>
+          </ul><h2><a href="https://github.com/containers/buildah/security/advisories/GHSA-7638-r9r3-rmjj">Buildah/Podman chroot isolation: environment value leakage to intermediate processes</a></h2></header>
           <section><blockquote>
 <p>When running processes using &quot;chroot&quot; isolation, the process being run can examine the environment variables of its immediate parent and grandparent processes (CVE-2021-3602). This isolation type is often used when running buildah in unprivileged containers, and it is often used to do so in CI/CD environments. If sensitive information is exposed to the original buildah process through its environment, that information will unintentionally be shared with child processes which it starts as part of handling RUN instructions or during buildah run. The commands that buildah is instructed to run can read that information if they choose to.</p>
 </blockquote>
@@ -136,7 +154,7 @@ frida -f &quot;game.exe&quot; -l C:\somewhere\GameOverlayRenderer.js --no-pause
       </article><article
       id="offline-kubernetes-manifest-diff-does-not-use-cluster-state"
       class="notecard-6x4 entries external">
-        <header><h1><a href="https://gist.github.com/2d281a681f41c1965e208883161169de">Offline Kubernetes manifest diff (does not use cluster state)</a></h1></header>
+        <header><h2><a href="https://gist.github.com/2d281a681f41c1965e208883161169de">Offline Kubernetes manifest diff (does not use cluster state)</a></h2></header>
           <section><p>Offline <code>kubectl diff</code> style tool (does not use cluster state). Diff two local files containing templated manifests (e.g. kustomize or helm output).</p>
 <p>Resources in each file are matched by api, kind, namespace and name. This is also shown in the filename fields of the diff output.</p>
 <p>Usage:</p>
@@ -147,27 +165,27 @@ kustomize build . | k8s-diff.py /tmp/old-manifests.yaml -
       </article><article
       id="epub-full-text-search-using-sq-lite-fts-5"
       class="notecard-5x3 entries external">
-        <header><h1><a href="https://gist.github.com/ba90e1aa1451be20b1e046aa9efd8191">EPUB full text search using SQLite FTS5</a></h1></header>
+        <header><h2><a href="https://gist.github.com/ba90e1aa1451be20b1e046aa9efd8191">EPUB full text search using SQLite FTS5</a></h2></header>
           <section><p>Do you ever look at the huge feature set of SQLite and try to see how many things you can use at the same time?</p>
 <p>FTS5 + fsdir + zipfile + JOIN multiple table-valued functions = EPUB full text search</p>
 </section>
       </article><article
       id="avr-gdb-python-script-to-get-flag-from-a-debug-build-of-https-blog-wokwi-com-capture-the-flag-shitty-add-on"
       class="notecard-5x3 entries external">
-        <header><h1><a href="https://gist.github.com/4ff25b15164d93fb5d9fb89ab09af95b">Function hooking example using avr-gdb's built-in simulator and Python</a></h1></header>
+        <header><h2><a href="https://gist.github.com/4ff25b15164d93fb5d9fb89ab09af95b">Function hooking example using avr-gdb's built-in simulator and Python</a></h2></header>
           <section><p>A simple example using <code>avr-gdb</code>'s built in <code>target sim</code> AVR simulator on a <code>.hex</code> file.</p>
 <p>GDB's Python support can be used to mock functions by modifying process state and calling <code>ret</code> to skip their execution.</p>
 </section>
       </article><article
       id="esphome-irkeyboard"
       class="notecard-3x3 entries external">
-        <header><h1><a href="https://github.com/bburky/esphome-projects#irkeyboard">ESPHome IR→BLE Keyboard</a></h1></header>
+        <header><h2><a href="https://github.com/bburky/esphome-projects#irkeyboard">ESPHome IR→BLE Keyboard</a></h2></header>
           <section><p>An <a href="https://esphome.io/">ESPHome</a> custom component to receive IR codes with <a href="https://esphome.io/components/remote_receiver.html"><code>remote_receiver</code></a> and convert them into BLE HID keystrokes. Uses a <code>Esp32BLEKeyboard</code> custom component and the <a href="https://github.com/T-vK/ESP32-BLE-Keyboard">ESP32 BLE Keyboard library</a>.</p>
 </section>
       </article><article
       id="python-win-rt-image-capture-and-focus-stacking"
       class="notecard-5x3 entries external">
-        <header><h1><a href="https://nbviewer.org/gist/bburky/563457900bc566b0d261ff15847dadd6">Python WinRT Image Capture (and Focus Stacking)</a></h1></header>
+        <header><h2><a href="https://nbviewer.org/gist/bburky/563457900bc566b0d261ff15847dadd6">Python WinRT Image Capture (and Focus Stacking)</a></h2></header>
           <section><p><a href="https://pypi.org/project/winrt/">Python/WinRT</a> is a crazy thing:</p>
 <blockquote>
 <p>The Windows Runtime Python Projection (Python/WinRT) enables Python developers to access Windows Runtime APIs directly from Python in a natural and familiar way.</p>
@@ -177,7 +195,7 @@ kustomize build . | k8s-diff.py /tmp/old-manifests.yaml -
       </article><article
       id="shitty-addon"
       class="notecard-5x3 entries ctf external">
-        <header><h1><a href="https://bburky.com/ctf-shittyaddon-writeup/">Capture The Flag Shitty Add-On Writeup</a></h1></header>
+        <header><h2><a href="https://bburky.com/ctf-shittyaddon-writeup/">Capture The Flag Shitty Add-On Writeup</a></h2></header>
           <section><p>An I²C AVR ATtiny85 CTF writeup.</p>
 <ul>
 <li><a href="https://bburky.com/ctf-shittyaddon-writeup/">CTF writeup</a></li>
@@ -189,7 +207,7 @@ kustomize build . | k8s-diff.py /tmp/old-manifests.yaml -
       </article><article
       id="a-whaley-good-joke"
       class="notecard-6x4 entries ctf external">
-        <header><h1><a href="https://ctftime.org/writeup/25656">PlaidCTF 2019: A Whaley Good Joke writeup</a></h1></header>
+        <header><h2><a href="https://ctftime.org/writeup/25656">PlaidCTF 2019: A Whaley Good Joke writeup</a></h2></header>
           <section><p>The challenge was to fix a broken Docker tar archive, with an unknown order of layers.</p>
 <p>A file isn't deleted from a layer unless it was already created by a previous layer, this makes it possible to solve a dependency tree of the layers (this is what most solutions to this challenge did).</p>
 <p>However, a much simpler solution is possible: sort the docker tar layers by mtime timestamp. The files created in the docker tar layers have different timestamps, accurate to one second.</p>
@@ -206,7 +224,7 @@ kustomize build . | k8s-diff.py /tmp/old-manifests.yaml -
       </article><article
       id="nas"
       class="notecard-6x4 entries projects external">
-        <header><h1><a href="https://bburky.com/NAS/">DIY NAS / Router</a></h1></header>
+        <header><h2><a href="https://bburky.com/NAS/">DIY NAS / Router</a></h2></header>
           <section><p>A 2-bay, low power, ARM-based NAS and router.</p>
 <p>A custom NAS built inside a hot-swap HDD enclosure, with an acrylic side panel, using a Banana Pi BPI-R2.</p>
 <ul>
@@ -218,26 +236,19 @@ kustomize build . | k8s-diff.py /tmp/old-manifests.yaml -
       </article><article
       id="multitouch-calligraphy"
       class="notecard-6x4 entries external">
-        <header><h1><a href="https://bburky.com/MultitouchCalligraphy/">Multitouch Calligraphy (Code Golf)</a></h1></header>
+        <header><h2><a href="https://github.com/bburky/MultitouchCalligraphy/">Multitouch Calligraphy (Code Golf)</a></h2></header>
           <section><p>Use a multitouch touchscreen device and <a href="https://bburky.com/MultitouchCalligraphy/">try the demo</a>. A larger tablet sized device is suggested, but a phone works.</p>
-<p>Touch two fingers to the screen and drag them to draw a calligraphic pen stroke.</p>
+<p>Touch two fingers to the screen and drag to draw calligraphic pen strokes.</p>
 <p>Code golfed down to 208 bytes.</p>
 <ul>
 <li><a href="https://bburky.com/MultitouchCalligraphy/">Demo</a></li>
 <li><a href="https://github.com/bburky/MultitouchCalligraphy/blob/master/index.html">Source code</a></li>
 </ul>
-<h2><a href="https://xem.github.io/miniCodeEditor/">MiniCodeEditor</a></h2>
-<p>I also participated in golfing a few bytes out of <a href="https://twitter.com/MaximeEuziere">@xem</a>'s <a href="https://xem.github.io/miniCodeEditor/">MiniCodeEditor</a> by using <code>&lt;iframe srcdoc=&quot;...&quot;&gt;</code></p>
-<blockquote>
-<p>An online HTML/CSS/JS playground in 62 &amp; 142 bytes</h2></p>
-<p>Inspired by <a href="//codepen.io">Codepen</a>, <a href="//jsfiddle.net">JSFiddle</a>, <a href="//jsbin.com">JSbin</a> and <a href="//dabblet.com/">dabblet</a></p>
-<p>golfed by <a href=//twitter.com/MaximeEuziere>xem</a>, <a href=//twitter.com/p01>p01</a></a>, <a href=//twitter.com/subzey>subzey</a>, <a href=//twitter.com/aemkei>aemkei</a>, <a href="https://twitter.com/LauckAndLoad">rlauck</a>, <a href="https://twitter.com/bburky">bburky</a>, <a href="https://twitter.com/mmastrac">mmastrac</a> and <a href="https://twitter.com/justecorruptio">justecorruptio</a></p>
-</blockquote>
 </section>
       </article><article
       id="subreddit-gender-ratios"
       class="notecard-5x3 entries projects external">
-        <header><h1><a href="https://bburky.com/subredditgenderratios/">Subreddit Gender Ratios</a></h1></header>
+        <header><h2><a href="https://bburky.com/subredditgenderratios/">Subreddit Gender Ratios</a></h2></header>
           <section><p>Estimate subreddit gender ratios by using a &quot;random&quot; (not great) sample of users with gender identified from Reddit flair.</p>
 <ul>
 <li><a href="https://bburky.com/subredditgenderratios/">Interactive data</a></li>
@@ -248,13 +259,13 @@ kustomize build . | k8s-diff.py /tmp/old-manifests.yaml -
       </article><article
       id="mathematica"
       class="notecard-3x3 entries ctf external">
-        <header><h1><a href="https://github.com/bburky/mathematica-ctf-writeups">Mathematica CTF Writeups</a></h1></header>
+        <header><h2><a href="https://github.com/bburky/mathematica-ctf-writeups">Mathematica CTF Writeups</a></h2></header>
           <section><p>Writeups for multiple cryptography and stenography CTF challenges solved with Mathematica.</p>
 </section>
       </article><article
       id="google-ctf-2016-little-bobby-application"
       class="notecard-5x3 entries ctf external">
-        <header><h1><a href="https://ctftime.org/writeup/20492">Google CTF 2016: Little Bobby Application writeup</a></h1></header>
+        <header><h2><a href="https://ctftime.org/writeup/20492">Google CTF 2016: Little Bobby Application writeup</a></h2></header>
           <section><p>Android blind SQLi by sending Intents and a BroadcastReceiver.</p>
 <ul>
 <li><a href="https://ctftime.org/writeup/20492">CTF Writeup</a></li>
@@ -303,7 +314,7 @@ kustomize build . | k8s-diff.py /tmp/old-manifests.yaml -
       class="notecard-5x3 entries bounty cve external">
         <header><ul class="cve-header"><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2016-3068">CVE-2016-3068</a></li>
             
-          </ul><h1><a href="https://bounty.github.com/researchers/bburky.html">Mercurial remote code execution in GitHub Importer</a></h1></header>
+          </ul><h2><a href="https://bounty.github.com/researchers/bburky.html">Mercurial remote code execution in GitHub Importer</a></h2></header>
           <section><blockquote>
 <p><a href="https://github.com/bburky">@bburky</a> reported a remote code execution vulnerability in Mercurial that could be triggered during repository imports using GitHub Importer.</p>
 </blockquote>
@@ -313,7 +324,7 @@ kustomize build . | k8s-diff.py /tmp/old-manifests.yaml -
       class="notecard-6x4 entries cve">
         <header><ul class="cve-header"><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2015-7545">CVE-2015-7545</a></li>
             
-          </ul><h1>Git remote code execution via submodules and git-remote-ext</h1></header>
+          </ul><h2>Git remote code execution via submodules and git-remote-ext</h2></header>
           <section><p>Git allows shell commands to be specified in <code>ext</code> URLs for remote repositories. For example, <code>git clone 'ext::sh -c whoami% &gt;&amp;2'</code> will execute the <code>whoami</code> command to try to connect to a remote repository. To protect users from accidentally trying to clone a malicious URL, Git submodule URLs were restricted to a safe set of protocols in <a href="https://github.com/git/git/blob/90f7b16b3adc78d4bbabbd426fb69aa78c714f71/Documentation/RelNotes/2.6.1.txt#L13-L18">Git v2.6.1</a>.</p>
 <blockquote>
 <p>Some protocols (like git-remote-ext) can execute arbitrary code
@@ -341,7 +352,7 @@ ones.</p>
       </article><article
       id="core-fonts-for-the-web-web-fonts"
       class="notecard-4x6 entries projects external">
-        <header><h1><a href="https://github.com/bburky/Core-fonts-for-the-Web-web-fonts">Core fonts for the Web web fonts</a></h1></header>
+        <header><h2><a href="https://github.com/bburky/Core-fonts-for-the-Web-web-fonts">Core fonts for the Web web fonts</a></h2></header>
           <section><p>The Microsoft <a href="https://en.wikipedia.org/wiki/Core_fonts_for_the_Web">Core fonts for the Web</a> included Andale Mono, Arial, Arial Black, Comic Sans MS, Courier New, Georgia, Impact, Times New Roman, Trebuchet MS, Verdana and Webdings as TrueType fonts. Though Microsoft no longer distributes these fonts, the old versions may still be redistributed freely. However, the <a href="http://www.microsoft.com/typography/fontpack/eula.htm">EULA</a> specifies that the fonts may not be modified in any way.</p>
 <p>But wouldn't it be fun to use them as <code>@font-face</code> web fonts? But sadly the original, redistributable, format is only either <code>.exe</code> or <code>.sit.hqx</code> files...</p>
 <p>With sufficient usage of JavaScript, random HTML5 features (<a href="https://developer.mozilla.org/en-US/docs/Web/API/Blob">blob</a> URLs in dynamically generated stylesheet rules) and <a href="http://emscripten.org">emscripten</a>-compiled <a href="http://www.cabextract.org.uk/">cabextract</a>, anything is possible.</p>
@@ -353,7 +364,7 @@ ones.</p>
       </article><article
       id="block-to-block"
       class="notecard-4x6 entries projects external">
-        <header><h1><a href="https://bburky.com/blocktoblock/">Block to Block Game</a></h1></header>
+        <header><h2><a href="https://bburky.com/blocktoblock/">Block to Block Game</a></h2></header>
           <section><p>An HTML5 sliding block puzzle game</p>
 <p>Originally written framework-less using the <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D">JavaScript Canvas 2D API</a> directly. Rewritten in late 2017 to learn the <a href="http://phaser.io/">Phaser</a> game framework.</p>
 <p>The original version supported both keyboard and multitouch input. The Phaser rewrite only supports keyboard input.</p>
@@ -363,6 +374,17 @@ ones.</p>
 <li><a href="https://bburky.com/blocktoblock/original/">Play original game</a></li>
 <li><a href="https://github.com/bburky/blocktoblock/tree/original">Original source code</a></li>
 </ul>
+</section>
+      </article><article
+      id="miniCodeEditor"
+      class="notecard-6x4 entries external">
+        <header><h2><a href="https://xem.github.io/miniCodeEditor/">miniCodeEditor (Code Golf)</a></h2></header>
+          <section><p>I participated in golfing a few bytes out of <a href="https://twitter.com/MaximeEuziere">@xem</a>'s <a href="https://xem.github.io/miniCodeEditor/">MiniCodeEditor</a> by using <code>&lt;iframe srcdoc=&quot;...&quot;&gt;</code></p>
+<blockquote>
+<p>An online HTML/CSS/JS playground in 62 &amp; 142 bytes</h2></p>
+<p>Inspired by <a href="//codepen.io">Codepen</a>, <a href="//jsfiddle.net">JSFiddle</a>, <a href="//jsbin.com">JSbin</a> and <a href="//dabblet.com/">dabblet</a></p>
+<p>golfed by <a href=//twitter.com/MaximeEuziere>xem</a>, <a href=//twitter.com/p01>p01</a></a>, <a href=//twitter.com/subzey>subzey</a>, <a href=//twitter.com/aemkei>aemkei</a>, <a href="https://twitter.com/LauckAndLoad">rlauck</a>, <a href="https://twitter.com/bburky">bburky</a>, <a href="https://twitter.com/mmastrac">mmastrac</a> and <a href="https://twitter.com/justecorruptio">justecorruptio</a></p>
+</blockquote>
 </section>
       </article></body>
 </html>

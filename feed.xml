@@ -4,29 +4,40 @@
   <subtitle>Blake Burkhart</subtitle>
   <link href="https://bburky.com/feed.xml" rel="self" />
   <link href="https://bburky.com/" />
-  <updated>2024-07-09T00:00:00Z</updated>
+  <updated>2025-04-21T00:00:00Z</updated>
   <id>https://bburky.com/</id>
   <author>
     <name>Blake Burkhart</name>
   </author>
   <entry>
+    <title>MinIO Operator used Kubernetes apiserver audience for AssumeRoleWithWebIdentity STS</title>
+    <link href="https://bburky.com/#minio-operator-audience" />
+    <updated>2025-04-21T00:00:00Z</updated>
+    <id>https://bburky.com/#minio-operator-audience</id>
+    <content type="html">&lt;p&gt;While reviewing MinIO Operator&#39;s &lt;a href=&quot;https://min.io/docs/minio/kubernetes/upstream/developers/sts-for-operator.html&quot;&gt;Kubernetes STS Authorization&lt;/a&gt; feature (very similar to AWS&#39;s &lt;a href=&quot;https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html&quot;&gt;IRSA&lt;/a&gt;), I discovered that it used &lt;code&gt;/var/run/secrets/kubernetes.io/serviceaccount/token&lt;/code&gt; for authorization. If the Pod&#39;s ServiceAccount had any Kubernetes RBAC permissions, this token could be &lt;a href=&quot;https://kubernetes.io/docs/tasks/run-application/access-api-from-pod/#directly-accessing-the-rest-api&quot;&gt;used with the Kubernetes API&lt;/a&gt; to perform privileged operations. Exposing this token to the MinIO Operator was a security issue.&lt;/p&gt;
+&lt;p&gt;MinIO implemented my recommendation of instead using &lt;a href=&quot;https://kubernetes.io/docs/concepts/storage/projected-volumes/#serviceaccounttoken&quot;&gt;serviceAccountToken projected volumes&lt;/a&gt; with a non-default audience. This ensures tokens are not valid against the Kubernetes apiserver and effectively drops privileges.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/advisories/GHSA-7m6v-q233-q9j9&quot;&gt;Security advisory&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/minio/operator/pull/2418&quot;&gt;Patch&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
+  <entry>
     <title>Missing authorization check on cross repository blob mount in multiple open source container registries</title>
     <link href="https://bburky.com/#missing-cross-repository-blob-mount-authorization-check" />
     <updated>2024-07-09T00:00:00Z</updated>
     <id>https://bburky.com/#missing-cross-repository-blob-mount-authorization-check</id>
-    <content type="html">&lt;p&gt;The &lt;a href=&quot;https://github.com/opencontainers/distribution-spec/blob/main/spec.md#mounting-a-blob-from-another-repository&quot;&gt;&lt;code&gt;POST /v2/&amp;lt;name&amp;gt;/blobs/uploads/?mount=&amp;lt;digest&amp;gt;&amp;amp;from=&amp;lt;other_name&amp;gt;&lt;/code&gt; cross repository blob mount Docker registry HTTP v2 API endpoint&lt;/a&gt; is unique in that it requires and access control check on two container names. Many new registry implementations have accidentally omitted this second access control check.&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;a href=&quot;https://github.com/opencontainers/distribution-spec/blob/main/spec.md#mounting-a-blob-from-another-repository&quot;&gt;&lt;code&gt;POST /v2/&amp;lt;name&amp;gt;/blobs/uploads/?mount=&amp;lt;digest&amp;gt;&amp;amp;from=&amp;lt;other_name&amp;gt;&lt;/code&gt; cross repository blob mount&lt;/a&gt; is unique among the other Docker registry HTTP v2 API endpoints in that it requires an access control check on two container names. Many new registry implementations have accidentally omitted &lt;code&gt;pull&lt;/code&gt; access control check on the source repository.&lt;/p&gt;
 &lt;h2&gt;&lt;a href=&quot;https://github.com/project-zot/zot/security/advisories/GHSA-55r9-5mx9-qq7r&quot;&gt;Zot CVE-2024-39897&lt;/a&gt;&lt;/h2&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Cache driver GetBlob() allows read access to any blob without access control check.&lt;/p&gt;
+&lt;p&gt;Cache driver &lt;code&gt;GetBlob()&lt;/code&gt; allows read access to any blob without access control check.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2&gt;&lt;a href=&quot;https://github.com/go-gitea/gitea/releases/tag/v1.20.0&quot;&gt;Gitea&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Fixed in &lt;a href=&quot;https://github.com/go-gitea/gitea/releases/tag/v1.20.0&quot;&gt;v1.20.0&lt;/a&gt;. &lt;a href=&quot;https://github.com/go-gitea/gitea/pull/22759&quot;&gt;PR #22759&lt;/a&gt; created 1 day after reporting, but unmerged for 5 months. No CVE issued.&lt;/p&gt;
-&lt;h2&gt;And more...&lt;/h2&gt;
-&lt;p&gt;At least one more reported but unfixed instance in another open source registry, and even more instances in smaller registries that I haven&#39;t yet reported.&lt;/p&gt;
 </content>
   </entry>
   <entry>
-    <title>Overly permissive IAM policy in philips-labs/terraform-aws-github-runner</title>
+    <title>Overly permissive IAM policy in github-aws-runners/terraform-aws-github-runner</title>
     <link href="https://bburky.com/#terraform-aws-github-runner-GHSA-w423-qwm2-w2jq" />
     <updated>2024-07-01T00:00:00Z</updated>
     <id>https://bburky.com/#terraform-aws-github-runner-GHSA-w423-qwm2-w2jq</id>
@@ -34,9 +45,18 @@
 &lt;p&gt;Runner EC2 instances could read other instances&#39; tokens (jitconfig and registration tokens) from SSM parameters. A runner&#39;s jitconfig is normally scoped down to a single repo, workflow and job. Stealing another runner&#39;s jitconfig allows lateral movement throughout the GitHub organization or repository and exposes the other runner&#39;s GITHUB_TOKEN, GitHub OIDC JWT ID token and any secrets.&lt;/p&gt;
 &lt;p&gt;Submitted patch with ResourceTag based IAM policy checking &lt;code&gt;ec2:SourceInstanceARN&lt;/code&gt; and added tags to SSM parameters.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/philips-labs/terraform-aws-github-runner/security/advisories/GHSA-w423-qwm2-w2jq&quot;&gt;Vulnerability advisory&lt;/a&gt; (No CVE issued)&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/philips-labs/terraform-aws-github-runner/commit/9399cf29bec963dfa305f367f37c098a76130371&quot;&gt;Patch with ResourceTag based IAM policy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/github-aws-runners/terraform-aws-github-runner/security/advisories/GHSA-w423-qwm2-w2jq&quot;&gt;Security advisory&lt;/a&gt; (No CVE issued)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/github-aws-runners/terraform-aws-github-runner/commit/9399cf29bec963dfa305f367f37c098a76130371&quot;&gt;Patch with ResourceTag based IAM policy&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+</content>
+  </entry>
+  <entry>
+    <title>San Antonio BSides CTF 2024</title>
+    <link href="https://bburky.com/#bsides-ctf" />
+    <updated>2024-06-08T00:00:00Z</updated>
+    <id>https://bburky.com/#bsides-ctf</id>
+    <content type="html">&lt;p&gt;1st place in local BSides CTF.&lt;/p&gt;
+&lt;p&gt;Small solo event with AI, crypto, binaries and web categories.&lt;/p&gt;
 </content>
   </entry>
   <entry>
@@ -44,12 +64,12 @@
     <link href="https://bburky.com/#kyverno-deletiontimestamp" />
     <updated>2023-06-01T00:00:00Z</updated>
     <id>https://bburky.com/#kyverno-deletiontimestamp</id>
-    <content type="html">&lt;p&gt;Discovered that in versions of Kyverno prior to 1.10.0, Kyverno does not enforce policies on resources with a &lt;code&gt;deletionTimestamp&lt;/code&gt;, which occurs during finalization after resource deletion begins. This allows a bypass of &amp;quot;validate, generate, or mutate-existing policies, even in cases where the validationFailureAction field is set to Enforce.&amp;quot;&lt;/p&gt;
+    <content type="html">&lt;p&gt;I discovered that in versions of Kyverno prior to 1.10.0, Kyverno did not enforce policies on resources with a &lt;code&gt;deletionTimestamp&lt;/code&gt;, which occurs during finalization after resource deletion begins. This allowed a bypass of &amp;quot;validate, generate, or mutate-existing policies, even in cases where the validationFailureAction field is set to Enforce.&amp;quot;&lt;/p&gt;
 &lt;p&gt;Impact is low for most Kubernetes resources because most controllers ignore changes during finalization. However, a few built in resource kinds such as ConfigMaps, Secrets and Services may honor changes during deletion. Custom resources may also be affected.&lt;/p&gt;
 &lt;p&gt;An attacker could first maliciously add a non-existent finalizer and begin deletion of a resource, then perform a malicious update of the resource bypassing Kyverno policies.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://medium.com/defense-unicorns/kyverno-cve-2023-34091-bypassing-policies-using-kubernetes-finalizers-14e51843016e&quot;&gt;Blog post, writeup, timeline&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/kyverno/kyverno/security/advisories/GHSA-hq4m-4948-64cc&quot;&gt;Kyverno security advisory&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/advisories/GHSA-hq4m-4948-64cc&quot;&gt;Kyverno security advisory&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
   </entry>
@@ -205,19 +225,12 @@ kustomize build . | k8s-diff.py /tmp/old-manifests.yaml -
     <updated>2018-01-23T00:00:00Z</updated>
     <id>https://bburky.com/#multitouch-calligraphy</id>
     <content type="html">&lt;p&gt;Use a multitouch touchscreen device and &lt;a href=&quot;https://bburky.com/MultitouchCalligraphy/&quot;&gt;try the demo&lt;/a&gt;. A larger tablet sized device is suggested, but a phone works.&lt;/p&gt;
-&lt;p&gt;Touch two fingers to the screen and drag them to draw a calligraphic pen stroke.&lt;/p&gt;
+&lt;p&gt;Touch two fingers to the screen and drag to draw calligraphic pen strokes.&lt;/p&gt;
 &lt;p&gt;Code golfed down to 208 bytes.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://bburky.com/MultitouchCalligraphy/&quot;&gt;Demo&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/bburky/MultitouchCalligraphy/blob/master/index.html&quot;&gt;Source code&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;&lt;a href=&quot;https://xem.github.io/miniCodeEditor/&quot;&gt;MiniCodeEditor&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;I also participated in golfing a few bytes out of &lt;a href=&quot;https://twitter.com/MaximeEuziere&quot;&gt;@xem&lt;/a&gt;&#39;s &lt;a href=&quot;https://xem.github.io/miniCodeEditor/&quot;&gt;MiniCodeEditor&lt;/a&gt; by using &lt;code&gt;&amp;lt;iframe srcdoc=&amp;quot;...&amp;quot;&amp;gt;&lt;/code&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;An online HTML/CSS/JS playground in 62 &amp;amp; 142 bytes&lt;/h2&gt;&lt;/p&gt;
-&lt;p&gt;Inspired by &lt;a href=&quot;//codepen.io&quot;&gt;Codepen&lt;/a&gt;, &lt;a href=&quot;//jsfiddle.net&quot;&gt;JSFiddle&lt;/a&gt;, &lt;a href=&quot;//jsbin.com&quot;&gt;JSbin&lt;/a&gt; and &lt;a href=&quot;//dabblet.com/&quot;&gt;dabblet&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;golfed by &lt;a href=//twitter.com/MaximeEuziere&gt;xem&lt;/a&gt;, &lt;a href=//twitter.com/p01&gt;p01&lt;/a&gt;&lt;/a&gt;, &lt;a href=//twitter.com/subzey&gt;subzey&lt;/a&gt;, &lt;a href=//twitter.com/aemkei&gt;aemkei&lt;/a&gt;, &lt;a href=&quot;https://twitter.com/LauckAndLoad&quot;&gt;rlauck&lt;/a&gt;, &lt;a href=&quot;https://twitter.com/bburky&quot;&gt;bburky&lt;/a&gt;, &lt;a href=&quot;https://twitter.com/mmastrac&quot;&gt;mmastrac&lt;/a&gt; and &lt;a href=&quot;https://twitter.com/justecorruptio&quot;&gt;justecorruptio&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
 </content>
   </entry>
   <entry>
@@ -356,6 +369,19 @@ ones.&lt;/p&gt;
 &lt;li&gt;&lt;a href=&quot;https://bburky.com/blocktoblock/original/&quot;&gt;Play original game&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/bburky/blocktoblock/tree/original&quot;&gt;Original source code&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+</content>
+  </entry>
+  <entry>
+    <title>miniCodeEditor (Code Golf)</title>
+    <link href="https://bburky.com/#miniCodeEditor" />
+    <updated>2013-12-07T00:00:00Z</updated>
+    <id>https://bburky.com/#miniCodeEditor</id>
+    <content type="html">&lt;p&gt;I participated in golfing a few bytes out of &lt;a href=&quot;https://twitter.com/MaximeEuziere&quot;&gt;@xem&lt;/a&gt;&#39;s &lt;a href=&quot;https://xem.github.io/miniCodeEditor/&quot;&gt;MiniCodeEditor&lt;/a&gt; by using &lt;code&gt;&amp;lt;iframe srcdoc=&amp;quot;...&amp;quot;&amp;gt;&lt;/code&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;An online HTML/CSS/JS playground in 62 &amp;amp; 142 bytes&lt;/h2&gt;&lt;/p&gt;
+&lt;p&gt;Inspired by &lt;a href=&quot;//codepen.io&quot;&gt;Codepen&lt;/a&gt;, &lt;a href=&quot;//jsfiddle.net&quot;&gt;JSFiddle&lt;/a&gt;, &lt;a href=&quot;//jsbin.com&quot;&gt;JSbin&lt;/a&gt; and &lt;a href=&quot;//dabblet.com/&quot;&gt;dabblet&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;golfed by &lt;a href=//twitter.com/MaximeEuziere&gt;xem&lt;/a&gt;, &lt;a href=//twitter.com/p01&gt;p01&lt;/a&gt;&lt;/a&gt;, &lt;a href=//twitter.com/subzey&gt;subzey&lt;/a&gt;, &lt;a href=//twitter.com/aemkei&gt;aemkei&lt;/a&gt;, &lt;a href=&quot;https://twitter.com/LauckAndLoad&quot;&gt;rlauck&lt;/a&gt;, &lt;a href=&quot;https://twitter.com/bburky&quot;&gt;bburky&lt;/a&gt;, &lt;a href=&quot;https://twitter.com/mmastrac&quot;&gt;mmastrac&lt;/a&gt; and &lt;a href=&quot;https://twitter.com/justecorruptio&quot;&gt;justecorruptio&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 </content>
   </entry>
 </feed>
