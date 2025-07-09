@@ -3,7 +3,7 @@ title: MinIO Operator used Kubernetes apiserver audience for AssumeRoleWithWebId
 date: 2025-04-21
 cve:
    CVE-2025-32963: https://github.com/advisories/GHSA-7m6v-q233-q9j9
-class: notecard-6x4
+class: notecard-4x6
 tags: cve
 url: https://github.com/advisories/GHSA-7m6v-q233-q9j9
 ---
