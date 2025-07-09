@@ -48,8 +48,24 @@ NOTE:<span class="note">A creative hacker who reads entirely too many RFCs.</spa
 END:<span class="field">VCARD</span>
     </pre>
   </header><article
+      id="keycloak-first-broker"
+      class="notecard-4x6 entries cve external">
+        <header><ul class="cve-header"><li><a href="https://access.redhat.com/security/cve/CVE-2025-7365">CVE-2025-7365</a></li>
+            
+          </ul><h2><a href="https://github.com/keycloak/keycloak/issues/40446">Keycloak verify existing account by email could be performed with a spoofed email</a></h2></header>
+          <section><p>Keycloak uses the &quot;First Broker Login&quot; authentication flow for a users's first login via a federated IdP. If a matching Keycloak already exists, the user is prompted to review their profile and may edit fields such as email. If the user edits their email to match a different existing victim user, they can attempt to link their external IdP to someone else's account.</p>
+<p>The security impact is fairly low however, because an email is sent to the victim and a link must be clicked within 5 minutes. This still presented a minor phishing risk and Keycloak mitigated the issue by no longer trusting the email if it was edited by the user, skipping &quot;Verify Existing Account By Email&quot; and now requires &quot;Verify Existing Account By Re-authentication&quot;.</p>
+<ul>
+<li><a href="https://github.com/keycloak/keycloak/issues/40446">Report</a></li>
+<li><a href="https://github.com/keycloak/keycloak/pull/40520">Fix</a></li>
+<li><a href="https://www.keycloak.org/docs/latest/upgrading/index.html#verify-existing-account-by-email-is-only-executed-for-the-email-and-username-sent-by-the-identity-provider">Upgrade note</a></li>
+<li><a href="https://access.redhat.com/security/cve/CVE-2025-7365">Red Hat CVE</a></li>
+<li><a href="https://bugzilla.redhat.com/show_bug.cgi?id=2378852">Bugzilla</a></li>
+</ul>
+</section>
+      </article><article
       id="minio-operator-audience"
-      class="notecard-6x4 entries cve external">
+      class="notecard-4x6 entries cve external">
         <header><ul class="cve-header"><li><a href="https://github.com/advisories/GHSA-7m6v-q233-q9j9">CVE-2025-32963</a></li>
             
           </ul><h2><a href="https://github.com/advisories/GHSA-7m6v-q233-q9j9">MinIO Operator used Kubernetes apiserver audience for AssumeRoleWithWebIdentity STS</a></h2></header>
