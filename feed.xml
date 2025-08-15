@@ -4,11 +4,24 @@
   <subtitle>Blake Burkhart</subtitle>
   <link href="https://bburky.com/feed.xml" rel="self" />
   <link href="https://bburky.com/" />
-  <updated>2025-07-08T00:00:00Z</updated>
+  <updated>2025-08-15T00:00:00Z</updated>
   <id>https://bburky.com/</id>
   <author>
     <name>Blake Burkhart</name>
   </author>
+  <entry>
+    <title>Unofficial Smart Chef kitchen scale webapp</title>
+    <link href="https://bburky.com/#smartchef" />
+    <updated>2025-08-15T00:00:00Z</updated>
+    <id>https://bburky.com/#smartchef</id>
+    <content type="html">&lt;p&gt;Simple webapp for &lt;a href=&quot;https://smartchef.me/&quot;&gt;Smart Chef&lt;/a&gt; kitchen scale to display the value via &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/Web_Bluetooth_API&quot;&gt;Web Bluetooth&lt;/a&gt;. Installable as a PWA, but offline support isn&#39;t quite finished. &lt;a href=&quot;https://github.com/bburky/smartchef-web-bluetooth/blob/main/script.js#L257&quot;&gt;Protocol decoding implementaion&lt;/a&gt; on personal reverse engineering and publicly available documents for other scales.&lt;/p&gt;
+&lt;p&gt;Developed a while back on &lt;a href=&quot;https://glitch.com/&quot;&gt;Glitch&lt;/a&gt; (before it died), now moved over to GitHub and published on GitHub Pages.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://bburky.com/smartchef-web-bluetooth/&quot;&gt;Webapp&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/bburky/smartchef-web-bluetooth/&quot;&gt;Source code&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
   <entry>
     <title>Keycloak verify existing account by email could be performed with a spoofed email</title>
     <link href="https://bburky.com/#keycloak-first-broker" />
