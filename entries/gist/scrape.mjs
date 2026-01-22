@@ -38,7 +38,7 @@ async function processGist(dir, gist) {
 
 async function main(urls) {
   const dir = path.dirname(fileURLToPath(import.meta.url));
-  const scrapeignore = new Set((await readFile(path.join(dir, '.scrapeignore'), 'utf-8')).replace(/\n$/, "").split('\n'));
+  const scrapeignore = new Set((await readFile(path.join(dir, '../../scrapeignore/gist.txt'), 'utf-8')).replace(/\n$/, "").split('\n'));
   
   for (const gist of (await octokit.rest.gists.listForUser({ username: "bburky" })).data) {
     if (urls && urls.length > 0) {
@@ -56,7 +56,7 @@ async function main(urls) {
 
     await processGist(dir, gist);
   }
-  await writeFile(path.join(dir, '.scrapeignore'), Array.from(scrapeignore).sort().join("\n") + "\n");
+  await writeFile(path.join(dir, '../../scrapeignore/gist.txt'), Array.from(scrapeignore).sort().join("\n") + "\n");
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
