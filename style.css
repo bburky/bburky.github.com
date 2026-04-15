@@ -63,21 +63,30 @@ article:target {
 }
 
 @media (max-width: 5in) {
+    /* Override inline-table so cards stack in a single column on mobile */
+    #nav-all:checked ~ article,
+    #nav-ctf:checked ~ article.ctf,
+    #nav-cve:checked ~ article.cve,
+    #nav-projects:checked ~ article.projects {
+        display: block;
+    }
+
     .notecard-6x4, .notecard-4x6, .notecard-5x3, .notecard-3x5, .notecard-3x3 {
-        /* Fit cards to screen on mobile */
+        /* Remove fixed dimensions */
         max-width: unset;
         min-height: unset;
-        /* Full width minus a margin on each side */
+        /* Full width minus a margin on each side; auto margins center the block */
         width: calc(100vw - 2em);
-        /* Tighten margins */
-        margin: 0.25em 0;
+        margin: 0.25em auto;
     }
     ul.cve-header {
         /* Fix CVE label position with new margins */
         margin-right: -2em !important;
     }
-    body {
-        /* Prevent horizontal scrolling; the 8.5x11 paper overflows intentionally */
+    html {
+        /* Clip horizontal overflow at the viewport level to prevent horizontal
+           scrolling. overflow-x on body alone doesn't work because body's overflow
+           only propagates to the viewport when html is overflow: visible. */
         overflow-x: hidden;
     }
     header.paper-85x11 {
