@@ -62,17 +62,37 @@ article:target {
     padding: 0.25in;
 }
 
-@media (max-width: 5in) {
+@media (max-width: 7in) {
+    /* Override inline-table so cards stack in a single column on mobile */
+    #nav-all:checked ~ article,
+    #nav-ctf:checked ~ article.ctf,
+    #nav-cve:checked ~ article.cve,
+    #nav-projects:checked ~ article.projects {
+        display: block;
+    }
+
     .notecard-6x4, .notecard-4x6, .notecard-5x3, .notecard-3x5, .notecard-3x3 {
-        /* Fit cards to screen on mobile*/
+        /* Remove fixed dimensions */
         max-width: unset;
         min-height: unset;
-        /* Tighten margins */
-        margin: 0.25em 0;
+        /* Full width minus a margin on each side; auto margins center the block */
+        width: calc(100vw - 2em);
+        margin: 0.25em auto;
     }
     ul.cve-header {
         /* Fix CVE label position with new margins */
         margin-right: -2em !important;
+    }
+    article pre {
+        /* Allow pre blocks to wrap instead of scrolling horizontally */
+        white-space: pre-wrap;
+    }
+    article {
+        /* Prevent long unbreakable strings (paths, URLs, inline code) from
+           overflowing the card. word-break needed alongside overflow-wrap for
+           full browser compatibility. */
+        overflow-wrap: break-word;
+        word-break: break-word;
     }
 }
 
