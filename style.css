@@ -83,21 +83,6 @@ article:target {
         /* Fix CVE label position with new margins */
         margin-right: -2em !important;
     }
-    .paper-wrapper {
-        /* overflow-x: hidden makes the wrapper a scroll container, which contains
-           the 8.5in header's layout overflow. The body then only sees the wrapper
-           as 100vw wide, preventing horizontal page scroll.
-           (overflow-x: clip does NOT work here — per spec it explicitly does not
-           prevent overflow from contributing to the parent's scrollable region.) */
-        overflow-x: hidden;
-    }
-    header.paper-85x11 {
-        /* On desktop the centering math positions the paper centered, but on mobile
-           this results in a negative margin-left that pushes the text off-screen left.
-           Anchor to the left edge instead so the body text is readable; the right
-           side of the paper overflows and is clipped by overflow-x: hidden. */
-        margin: 0.25in 0 0 0;
-    }
     article pre {
         /* Allow pre blocks to wrap instead of scrolling horizontally */
         white-space: pre-wrap;
