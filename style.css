@@ -96,6 +96,11 @@ article:target {
            side of the paper overflows and is clipped by overflow-x: hidden. */
         margin: 0.25in 0 0 0;
     }
+    article pre, article code {
+        /* Wrap at word boundaries; break mid-word only as a last resort */
+        white-space: pre-wrap;
+        overflow-wrap: break-word;
+    }
 }
 
 header.paper-85x11 {
