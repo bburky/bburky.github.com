@@ -111,8 +111,23 @@ article:target {
            labels (width: 5in) and any other stray overflow don't let the
            viewport scroll horizontally. overflow-x: clip is used here
            because overflow-x: hidden would force overflow-y from scroll
-           to auto and change scrollbar behavior. */
+           to auto and change scrollbar behavior.
+
+           position: relative makes body the containing block for the
+           absolutely-positioned nav labels. Without this they'd be
+           positioned relative to the viewport (an ancestor of body), and
+           per CSS 2.1 §11.1.2 that would let them escape body's overflow
+           clipping — which is what was happening on mobile. */
+        position: relative;
         overflow-x: clip;
+    }
+    label.nav, #feed {
+        /* The 5in default width is wider than typical mobile viewports
+           and is the main thing extending the scrollable area. Fit them
+           to the viewport so they don't cause horizontal overflow even
+           before clipping kicks in. */
+        width: auto;
+        max-width: calc(100vw - 2em);
     }
 }
 
