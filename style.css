@@ -96,9 +96,15 @@ article:target {
            side of the paper overflows and is clipped by overflow-x: hidden. */
         margin: 0.25in 0 0 0;
     }
-    article pre, article code {
-        /* Wrap at word boundaries; break mid-word only as a last resort */
+    article pre {
+        /* Allow pre blocks to wrap instead of scrolling horizontally */
         white-space: pre-wrap;
+        overflow-wrap: break-word;
+    }
+    article {
+        /* Prevent long unbreakable strings (paths, URLs, inline code) from
+           overflowing the card. Setting on the block container is more reliable
+           than on inline elements alone. */
         overflow-wrap: break-word;
     }
 }
