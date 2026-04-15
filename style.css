@@ -106,6 +106,14 @@ article:target {
         max-width: 100%;
         overflow-x: clip;
     }
+    body {
+        /* Also clip at the body level so that absolutely-positioned nav
+           labels (width: 5in) and any other stray overflow don't let the
+           viewport scroll horizontally. overflow-x: clip is used here
+           because overflow-x: hidden would force overflow-y from scroll
+           to auto and change scrollbar behavior. */
+        overflow-x: clip;
+    }
 }
 
 header.paper-85x11 {
