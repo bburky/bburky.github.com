@@ -96,6 +96,18 @@ article:target {
     }
 }
 
+@media (max-width: 7in) {
+    /* On mobile, constrain the 8.5x11 paper's footprint so the rotated
+       element doesn't force the page to be wider than the viewport.
+       overflow-x: clip (rather than overflow: hidden) lets the vertical
+       backdrop in ::before/::after still extend below the header's natural
+       layout height. */
+    .paper-85x11-wrapper {
+        max-width: 100%;
+        overflow-x: clip;
+    }
+}
+
 header.paper-85x11 {
     width: 8.5in;
     padding: 0.25in;
