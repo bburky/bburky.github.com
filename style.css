@@ -64,15 +64,28 @@ article:target {
 
 @media (max-width: 5in) {
     .notecard-6x4, .notecard-4x6, .notecard-5x3, .notecard-3x5, .notecard-3x3 {
-        /* Fit cards to screen on mobile*/
+        /* Fit cards to screen on mobile */
         max-width: unset;
         min-height: unset;
+        /* Full width minus a margin on each side */
+        width: calc(100vw - 2em);
         /* Tighten margins */
         margin: 0.25em 0;
     }
     ul.cve-header {
         /* Fix CVE label position with new margins */
         margin-right: -2em !important;
+    }
+    body {
+        /* Prevent horizontal scrolling; the 8.5x11 paper overflows intentionally */
+        overflow-x: hidden;
+    }
+    header.paper-85x11 {
+        /* On desktop the centering math positions the paper centered, but on mobile
+           this results in a negative margin-left that pushes the text off-screen left.
+           Anchor to the left edge instead so the body text is readable; the right
+           side of the paper overflows and is clipped by overflow-x: hidden. */
+        margin: 0.25in 0 0 0;
     }
 }
 
