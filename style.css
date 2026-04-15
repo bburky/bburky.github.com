@@ -1,10 +1,8 @@
-
 body {
+    margin: 0;
+
     background: #b5b5b5;
     text-align: center;
-
-    /* Force scrollbar to avoid vw changes if it disappears */
-    overflow-y: scroll;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -80,19 +78,20 @@ article:target {
         margin: 0.25em auto;
     }
     ul.cve-header {
-        /* Fix CVE label position with new margins */
         margin-right: -2em !important;
     }
     article pre {
-        /* Allow pre blocks to wrap instead of scrolling horizontally */
         white-space: pre-wrap;
     }
     article {
-        /* Prevent long unbreakable strings (paths, URLs, inline code) from
-           overflowing the card. word-break needed alongside overflow-wrap for
-           full browser compatibility. */
-        overflow-wrap: break-word;
-        word-break: break-word;
+        overflow-wrap: anywhere;
+        /* <wbr> break points are added in long code strings for manual breaking */
+    }
+
+    body {
+        /* cut off invisible overflow messing up max mobile viewport scrollable area */
+        /* NOTE: ensure nothing (notecards) goes off-screen or it may get clipped badly */
+        contain: paint;
     }
 }
 
