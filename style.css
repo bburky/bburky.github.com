@@ -83,11 +83,11 @@ article:target {
         /* Fix CVE label position with new margins */
         margin-right: -2em !important;
     }
-    html {
-        /* Clip horizontal overflow at the viewport level to prevent horizontal
-           scrolling. overflow-x on body alone doesn't work because body's overflow
-           only propagates to the viewport when html is overflow: visible. */
-        overflow-x: hidden;
+    .paper-wrapper {
+        /* Clip the overflowing 8.5x11 paper on the right without creating a scroll
+           container. overflow-x: clip (unlike hidden) does not create a new scroll
+           container, so it won't interfere with body's overflow-y: scroll. */
+        overflow-x: clip;
     }
     header.paper-85x11 {
         /* On desktop the centering math positions the paper centered, but on mobile
@@ -99,13 +99,13 @@ article:target {
     article pre {
         /* Allow pre blocks to wrap instead of scrolling horizontally */
         white-space: pre-wrap;
-        overflow-wrap: break-word;
     }
     article {
         /* Prevent long unbreakable strings (paths, URLs, inline code) from
-           overflowing the card. Setting on the block container is more reliable
-           than on inline elements alone. */
+           overflowing the card. word-break needed alongside overflow-wrap for
+           full browser compatibility. */
         overflow-wrap: break-word;
+        word-break: break-word;
     }
 }
 
